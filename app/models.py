@@ -12,13 +12,7 @@ from enum import Enum
 #     Inactive = 'Inactive' #Conta foi apagada/desativada por um admin
 
 # class Role(db.Model):
-
-#     __tablename__ = 'roles'
-    
-#     id = db.Column('role_id', db.Integer, primary_key=True)
-#     role = db.Column('role', db.String(128), unique=True, nullable=False)
-#     user = relationship("User", lazy='joined')
-    
+   
     # Admin = 'Admin'
     # Coordinator = 'Coordinator'
     # Driver = 'Driver'
@@ -38,7 +32,7 @@ class User(db.Model):
     password_reset_token = db.Column('password_reset_token', db.String(128), nullable=True,  unique=False)
     status = db.Column('status', db.String(64), nullable=False, unique=False, server_default='Pending')
     created_date = db.Column('created_date', db.DateTime, nullable=False,  unique=False, server_default=func.now())
-    mofified_date = db.Column('modified_date', db.DateTime, nullable=True,  unique=False, onupdate=func.now())
+    modified_date = db.Column('modified_date', db.DateTime, nullable=True,  unique=False, onupdate=func.now())
 
     #
     # @password.setter
