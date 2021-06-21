@@ -1,41 +1,42 @@
+from sqlalchemy.orm import relationship
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.dialects.postgresql import ENUM as pgEnum
 from sqlalchemy.sql import func
 from enum import Enum
-from dataclasses import dataclass
+# from dataclasses import dataclass
 
-class AccountStatus(Enum):
-    Active = 'Active' #Pode fazer tudo
-    Pending = 'Pending' # Pendente de confirmation por admin
-    Inactive = 'Inactive' #Conta foi apagada/desativada por um admin
+# class AccountStatus(Enum):
+#     Active = 'Active' #Pode fazer tudo
+#     Pending = 'Pending' # Pendente de confirmation por admin
+#     Inactive = 'Inactive' #Conta foi apagada/desativada por um admin
 
-class Role(Enum):
-    Admin = 'Admin'
-    Coordinator = 'Coordinator'
-    Driver = 'Driver'
-    Watcher = 'Watcher'
+# class Role(db.Model):
 
-@dataclass
+#     __tablename__ = 'roles'
+    
+#     id = db.Column('role_id', db.Integer, primary_key=True)
+#     role = db.Column('role', db.String(128), unique=True, nullable=False)
+#     user = relationship("User", lazy='joined')
+    
+    # Admin = 'Admin'
+    # Coordinator = 'Coordinator'
+    # Driver = 'Driver'
+    # Watcher = 'Watcher'
+
+# @dataclass
 class User(db.Model):
  
     __tablename__ = 'users'
 
-    id : int
-    email: str
-    first_name: str
-    last_name: str
-    # role: Role.value
-
     id = db.Column('user_id', db.Integer, primary_key=True)
     email = db.Column('email', db.String(128), index=True, unique=True, nullable=False)
     password = db.Column('password', db.String(128), nullable=False, unique=False)
-    first_name = db.Column('first_name', db.String(64), nullable=False, unique=False)
-    last_name = db.Column('last_name', db.String(64), nullable=False, unique=False)
-    role = db.Column('role', pgEnum(Role), nullable=False, unique=False, server_default="Driver")
+    name = db.Column('name', db.String(64), nullable=False, unique=False)
+    role = db.Column('role', db.String(64), nullable=False, unique=False, server_default='Driver')
     image = db.Column('image', db.String(128), nullable=True, unique=False)
     password_reset_token = db.Column('password_reset_token', db.String(128), nullable=True,  unique=False)
-    status = db.Column('status', pgEnum(AccountStatus), nullable=False, unique=False, server_default="Pending")
+    status = db.Column('status', db.String(64), nullable=False, unique=False, server_default='Pending')
     created_date = db.Column('created_date', db.DateTime, nullable=False,  unique=False, server_default=func.now())
     mofified_date = db.Column('modified_date', db.DateTime, nullable=True,  unique=False, onupdate=func.now())
 
