@@ -43,8 +43,9 @@ def login():
             'last_name': user.last_name,
             # 'role': user.role,
             # 'status': user.status,
-            'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
+            'exp' : datetime.datetime.now() + datetime.timedelta(minutes=app.config['TOKEN_TIME_MIN'])
         }
+        
         token = jwt.encode(payload, app.config['SECRET_KEY'])
         
         return jsonify({'token': token}), 200

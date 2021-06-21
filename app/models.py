@@ -25,6 +25,7 @@ class User(db.Model):
     email: str
     first_name: str
     last_name: str
+    # role: Role.value
 
     id = db.Column('user_id', db.Integer, primary_key=True)
     email = db.Column('email', db.String(128), index=True, unique=True, nullable=False)
