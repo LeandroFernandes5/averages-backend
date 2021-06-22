@@ -21,7 +21,7 @@ migrate = Migrate(app, db)
 # 
 #    Import views
 #
-from app.views import auth
+from app.views import users
 from app import models
 
 

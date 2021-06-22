@@ -2,7 +2,7 @@ from app.serializer import *
 from flask import app, request
 from flask.json import jsonify
 from app import app, db
-from app.models import User
+from app.models import User, Driver
 from pprint import pprint
 import jwt 
 import datetime
@@ -11,7 +11,7 @@ import datetime
 #    
 #   Register a new user
 # 
-@app.post('/register')
+@app.post('/users')
 def register():
 
     email = request.json.get('email')
@@ -36,7 +36,7 @@ def register():
 @app.post('/login')
 def login():
     
-    user = User.query.filter_by(email=request.json.get('email')).first()
+    user = User.query.get(email=request.json.get('email'))
 
     if user and user.check_password(request.json.get('password')):
         payload = {
@@ -70,7 +70,7 @@ def users():
     # }
     # pprint(users_schema.dump(User.query.all()))
     # pprint(user_schema.dump(User.query.all()))
-    pprint(User.query.all())
+    # pprint(User.query.all())
 
 
-    return {'coisas': users_schema.dump(User.query.all()) }
+    return {'coisas': Driver.query.all()}
