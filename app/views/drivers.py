@@ -14,7 +14,7 @@ def get_drivers():
     
     return jsonify(result), 200
 
-@app.post('/driver')
+@app.post('/drivers')
 def post_driver():
 
     driver = Driver(
