@@ -1,33 +1,15 @@
 from datetime import date
 from sqlalchemy.orm import relationship
-from app import db
+from app import db, ma
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.dialects.postgresql import ENUM as pgEnum
 from sqlalchemy.sql import func
-from enum import Enum
-from dataclasses import dataclass
+# from dataclasses import dataclass
 import datetime
 
-# class AccountStatus(Enum):
-#     Active = 'Active' #Pode fazer tudo
-#     Pending = 'Pending' # Pendente de confirmation por admin
-#     Inactive = 'Inactive' #Conta foi apagada/desativada por um admin
 
-# class Role(db.Model):
-   
-    # Admin = 'Admin'
-    # Coordinator = 'Coordinator'
-    # Driver = 'Driver'
-    # Watcher = 'Watcher'
-
-@dataclass
+# @dataclass
 class User(db.Model):
-
-    id: int
-    email: str
-    name: str
-    role: str
-    status: str
  
     __tablename__ = 'users'
 
@@ -56,19 +38,8 @@ class User(db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.email)    
 
-@dataclass
+# @dataclass
 class Driver(db.Model):
-
-    id: int
-    name: str
-    birthDate: date
-    ccNumber: str
-    ccExpireDate: date
-    driverLicenseNumber: str 
-    driverLicenseExpireDate: date
-    tccExpireDate: date
-    user_id: User
-    
 
     __tablename__ = 'drivers'
 
@@ -86,6 +57,15 @@ class Driver(db.Model):
     modified_date = db.Column('modified_date', db.DateTime, nullable=True,  unique=False, onupdate=func.now())
     user_id = db.Column('user_id', db.Integer, db.ForeignKey('users.user_id'))
     # supplies = db.relationship('Post', backref='driver', lazy='dynamic')
+
+# Product Schema
+class DriverSchema(ma.Schema):
+  class Meta:
+    fields = ('id', 'name', 'birthDate', 'ccNumber', 'ccExpireDate', 'driverLicenseNumber', 'driverLicenseExpireDate', 'tccExpireDate', 'camExpireDate', 'user_id')
+
+# Init schema
+driver_schema = DriverSchema()
+drivers_schema = DriverSchema(many=True)
 
 
 # class Supply(db.Model):

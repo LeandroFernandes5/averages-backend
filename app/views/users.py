@@ -1,4 +1,3 @@
-from app.serializer import *
 from flask import app, request
 from flask.json import jsonify
 from app import app, db
