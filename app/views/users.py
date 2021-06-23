@@ -32,11 +32,12 @@ def register():
 #    
 #   Login
 # 
-@app.post('/login')
+@app.post('/me/login')
 def login():
     
-    user = User.query.get(email=request.json.get('email'))
-
+    
+    user = User.query.filter_by(email=request.json.get('email')).first()
+    
     if user and user.check_password(request.json.get('password')):
         payload = {
             'id': user.id,
@@ -47,7 +48,7 @@ def login():
             'exp' : datetime.datetime.now() + datetime.timedelta(minutes=app.config['TOKEN_TIME_MIN'])
         }
         
-        token = jwt.encode(payload, app.config['SECRET_KEY'])
+        token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm=app.config['ALGORITHM'])
         
         return jsonify({'accessToken': token}), 201
 
@@ -72,4 +73,4 @@ def users():
     # pprint(User.query.all())
 
 
-    return {'coisas': Driver.query.all()}
+    return {'coisas': 'leo'}

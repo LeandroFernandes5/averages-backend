@@ -58,6 +58,9 @@ class Driver(db.Model):
     user_id = db.Column('user_id', db.Integer, db.ForeignKey('users.user_id'))
     # supplies = db.relationship('Post', backref='driver', lazy='dynamic')
 
+    def __repr__(self):
+        return '<Driver {}>'.format(self.name)   
+
 # Product Schema
 class DriverSchema(ma.Schema):
   class Meta:

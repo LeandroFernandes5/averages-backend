@@ -5,23 +5,30 @@ from app.models import User
 import jwt 
 from functools import wraps
 
-def token_required(f):
-   @wraps(f)
-   def decorator(*args, **kwargs):
 
-      token = None
+def token_perms_required(role):
+    def inner_decorator(f):
+        def wrapped(*args, **kwargs):
 
-      if 'x-access-tokens' in request.headers:
-         token = request.headers['x-access-tokens']
+            token = None
 
-      if not token:
-         return jsonify({'message': 'a valid token is missing'})
+            if 'Authorization' in request.headers:
+               token = request.headers['Authorization']
 
-      try:
-         data = jwt.decode(token, app.config['SECRET_KEY'])
-         current_user = User.query.filter_by(public_id=data['public_id']).first()
-      except:
-         return jsonify({'message': 'token is invalid'})
+            if not token:
+               return {'message': 'Token not found'}, 401
 
-      #   return f(current_user, *args, **kwargs)
-   return decorator
+            try:
+               data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=app.config['ALGORITHM'])
+
+               if not data['role'] in role:
+                  return jsonify({'message': 'Forbidden'}), 403
+
+            except:
+
+               return jsonify({'message': 'Token not valid'}), 403
+            
+            return f(*args, **kwargs)
+        return wrapped
+    return inner_decorator
+

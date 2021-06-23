@@ -6,6 +6,7 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://averages:averages@localhost:6543/flask'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TOKEN_TIME_MIN = 60
+    ALGORITHM='HS256'
 
 
 class ProductionConfig(Config):
