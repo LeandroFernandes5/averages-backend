@@ -42,7 +42,8 @@ def get_drivers():
     
     result = DriverSchema(
         many=True,
-        only=('id', 'name', 'ccNumber', 'driverLicenseNumber', 'driverLicenseExpireDate', 'birthDate', 'camExpireDate', 'user', 'tccExpireDate', 'ccExpireDate')
+        only=('id', 'name', 'ccNumber', 'driverLicenseNumber', 'driverLicenseExpireDate', 
+        'birthDate', 'camExpireDate', 'tccExpireDate', 'ccExpireDate', 'user',)
         ).dumps(drivers)
     
    
@@ -59,6 +60,9 @@ def get_driver(id):
     driver = Driver.query.filter_by(id=id).first()
 
     if driver:
-        return DriverSchema().dumps(driver), 200
+        return DriverSchema(
+            only=('id', 'name', 'ccNumber', 'driverLicenseNumber', 'driverLicenseExpireDate', 
+            'birthDate', 'camExpireDate', 'tccExpireDate', 'ccExpireDate', 'user',)
+        ).dumps(driver), 200
 
     return { 'message' : 'Driver not found!' }, 404

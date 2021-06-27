@@ -61,7 +61,6 @@ class Driver(db.Model):
 
 
 
-
 # class Supply(db.Model):
  
 #     __tablename__ = 'supplies'
