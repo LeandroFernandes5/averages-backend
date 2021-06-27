@@ -25,5 +25,6 @@ ma = Marshmallow(app)
 #
 from app.views import users, drivers
 from app import models
+from app.serialization import UserSchema, DriverSchema
 
 

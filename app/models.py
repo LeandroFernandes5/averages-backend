@@ -1,10 +1,8 @@
-from datetime import date
 from sqlalchemy.orm import relationship
 from app import db, ma
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy.dialects.postgresql import ENUM as pgEnum
 from sqlalchemy.sql import func
-import datetime
+from marshmallow import Schema, fields
 
 
 class User(db.Model):
@@ -14,7 +12,7 @@ class User(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
     email = db.Column('email', db.String(128), index=True, unique=True, nullable=False)
     password = db.Column('password', db.String(128), nullable=False, unique=False)
-    name = db.Column('name', db.String(64), nullable=False, unique=False)
+    name = db.Column('name', db.String(64), nullable=True, unique=False)
     role = db.Column('role', db.String(64), nullable=False, unique=False, server_default='Driver')
     imageURL = db.Column('image', db.String(128), nullable=True, unique=False)
     passwordResetToken = db.Column('passwordResetToken', db.String(128), nullable=True,  unique=False)
@@ -37,12 +35,14 @@ class User(db.Model):
         return '<User {}>'.format(self.email)    
 
 
+
+
 class Driver(db.Model):
 
     __tablename__ = 'drivers'
 
     id = db.Column('id', db.Integer, primary_key=True)
-    image = db.Column('image', db.String(128), nullable=True, unique=False)
+    imageURL = db.Column('imageURL', db.String(128), nullable=True, unique=False)
     name = db.Column('name', db.String(64), nullable=False, unique=False)
     birthDate = db.Column('birthDate', db.DateTime, nullable=True, unique=False)
     ccNumber = db.Column('ccNumber', db.String(64), nullable=True, unique=False)
@@ -59,14 +59,7 @@ class Driver(db.Model):
     def __repr__(self):
         return '<Driver {}>'.format(self.name)   
 
-# Product Schema
-class DriverSchema(ma.Schema):
-  class Meta:
-    fields = ('id', 'name', 'birthDate', 'ccNumber', 'ccExpireDate', 'driverLicenseNumber', 'driverLicenseExpireDate', 'tccExpireDate', 'camExpireDate', 'userid')
 
-# Init schema
-driver_schema = DriverSchema()
-drivers_schema = DriverSchema(many=True)
 
 
 # class Supply(db.Model):

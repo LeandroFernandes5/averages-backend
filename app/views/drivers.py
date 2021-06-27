@@ -1,15 +1,15 @@
 from flask import app, request
-from flask.json import jsonify
-from app import app, db, ma
-from app.models import User, Driver, driver_schema, drivers_schema
+from app import app, db
+from app.models import Driver
+from app.serialization import DriverSchema
 from app.decorators import token_perms_required
-
 
 
 #
 #   Post a new driver
 #
 @app.post('/drivers')
+# @token_perms_required(role=['Admin','Supervisor'])
 def post_driver():
 
     driver = Driver(
@@ -22,37 +22,43 @@ def post_driver():
         driverLicenseExpireDate = request.json.get('driverLicenseExpireDate'),
         tccExpireDate = request.json.get('tccExpireDate'),
         camExpireDate = request.json.get('camExpireDate'),
-        user_id = request.json.get('user_id')
+        userId = request.json.get('userId')
     )
 
     db.session.add(driver)
     db.session.commit()
 
-    return driver_schema.jsonify(driver), 201
+    return { 'message' : 'Driver created!' }, 201
 
 
 #    
 #   Get all Drivers
 # 
 @app.get('/drivers')
-@token_perms_required(role=['Admin','Supervisor'])
+# @token_perms_required(role=['Admin','Supervisor'])
 def get_drivers():
 
     drivers = Driver.query.all()
-    result = drivers_schema.dump(drivers)
+    
+    result = DriverSchema(
+        many=True,
+        only=('id', 'name', 'ccNumber', 'driverLicenseNumber', 'driverLicenseExpireDate', 'birthDate', 'camExpireDate', 'user', 'tccExpireDate', 'ccExpireDate')
+        ).dumps(drivers)
+    
    
-    return jsonify(result), 200
+    return result, 200
 
     
 #
 #   Get Driver
 #
 @app.get('/drivers/<id>')
+# @token_perms_required(role=['Admin','Supervisor'])
 def get_driver(id):
     
-    driver = Driver.query.get(id)
+    driver = Driver.query.filter_by(id=id).first()
 
     if driver:
-        return driver_schema.dump(driver), 200
+        return DriverSchema().dumps(driver), 200
 
-    return {'message': 'Driver not found!' }, 404
+    return { 'message' : 'Driver not found!' }, 404

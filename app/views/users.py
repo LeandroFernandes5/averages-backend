@@ -1,10 +1,9 @@
 from flask import app, request
-from flask.json import jsonify
 from app import app, db
-from app.models import User, Driver
-from pprint import pprint
-import jwt 
-import datetime
+from app.models import User
+from app.serialization import UserSchema
+import jwt, datetime
+from app.decorators import token_perms_required
 
 
 #    
@@ -16,7 +15,7 @@ def register():
     email = request.json.get('email')
     
     if User.query.filter_by(email=email).first():
-         return jsonify({'message': 'User already exists' }), 401
+         return {'message': 'User already exists' }, 401
     
     user = User(
         email = request.json.get('email'),
@@ -27,7 +26,7 @@ def register():
     db.session.add(user)
     db.session.commit()
     
-    return jsonify({'message': 'User registered!' }), 201
+    return { 'message' : 'User registered!' }, 201
 
 #    
 #   Login
@@ -50,27 +49,23 @@ def login():
         
         token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm=app.config['ALGORITHM'])
         
-        return jsonify({'accessToken': token}), 201
+        return {'accessToken': token}, 201
 
-    return jsonify({'message': 'No User has that email'}), 401
+    return { 'message' : 'No User has that email' }, 401
 
 #    
 #   
 # 
+
 @app.get('/users')
+# @token_perms_required(role=['Admin','Supervisor'])
 def users():
 
-    # users = User.query.all()
-    # pprint(users)
-    # result = user_schema.dumps(users)
-    # pprint(result)
-    # response = {
-    #         'data': result,
-    #         'status_code' : 202
-    # }
-    # pprint(users_schema.dump(User.query.all()))
-    # pprint(user_schema.dump(User.query.all()))
-    # pprint(User.query.all())
+    users = User.query.all()
+    
+    result = UserSchema(
+        many=True, 
+        only=('id', 'email', 'name', 'role', 'status', )
+        ).dumps(users)
 
-
-    return {'coisas': 'leo'}
+    return result, 200
