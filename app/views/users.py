@@ -1,4 +1,4 @@
-from flask import app, request
+from flask import app, request, jsonify
 from app import app, db
 from app.models import User
 from app.serialization import UserSchema
@@ -60,12 +60,11 @@ def login():
 @app.get('/users')
 # @token_perms_required(role=['Admin','Supervisor'])
 def users():
-
+  
     users = User.query.all()
-    
     result = UserSchema(
         many=True, 
         only=('id', 'email', 'name', 'role', 'status', )
         ).dumps(users)
-
+    
     return result, 200

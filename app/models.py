@@ -60,6 +60,26 @@ class Driver(db.Model):
         return '<Driver {}>'.format(self.name)   
 
 
+class Car(db.Model):
+
+    __tablename__ = 'cars'
+
+    id = db.Column('id', db.Integer, primary_key=True)
+    plate = db.Column('plate', db.String(64), nullable=True, unique=False)
+    brand = db.Column('brand', db.String(64), nullable=True, unique=False)
+    model = db.Column('model', db.String(64), nullable=True, unique=False)
+    registerDate = db.Column('registerDate', db.DateTime, nullable=True, unique=False)
+    chassisNo = db.Column('chassisNo', db.String(64), nullable=True, unique=False)
+    obraNo = db.Column('obraNo', db.String(64), nullable=True, unique=False)
+    inspectionDate = db.Column('inspectionDate', db.DateTime, nullable=True, unique=False)
+    tccExpireDate = db.Column('tccExpireDate', db.DateTime, nullable=True, unique=False)
+    licenseDate = db.Column('licenseDate', db.DateTime, nullable=True, unique=False)
+    tachographDate = db.Column('tachographDate', db.DateTime, nullable=True, unique=False)
+    createdDate = db.Column('createdDate', db.DateTime, nullable=False,  unique=False, server_default=func.now())
+    modifiedDate = db.Column('modifiedDate', db.DateTime, nullable=True,  unique=False, onupdate=func.now())
+
+    def __repr__(self):
+        return '<Car {}>'.format(self.plate)
 
 # class Supply(db.Model):
  
