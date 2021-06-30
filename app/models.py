@@ -54,7 +54,6 @@ class Driver(db.Model):
     createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
     userId = db.Column('userId', db.Integer, db.ForeignKey('users.id'))
-    supplies = relationship("Supply")
 
     def __repr__(self):
         return '<Driver {}>'.format(self.name)   
@@ -78,7 +77,6 @@ class Car(db.Model):
     createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
     carAverage = relationship("CarAverages", uselist=False, backref="carAverages")
-    supplies = relationship("Supply")
 
     def __repr__(self):
         return '<Car {}>'.format(self.plate)

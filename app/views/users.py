@@ -15,7 +15,7 @@ def register():
     email = request.json.get('email')
     
     if User.query.filter_by(email=email).first():
-         return {'message': 'User already exists' }, 401
+         return {'message': 'Email already exists' }, 409
     
     user = User(
         email = request.json.get('email'),
@@ -26,7 +26,7 @@ def register():
     db.session.add(user)
     db.session.commit()
     
-    return { 'message' : 'User registered!' }, 201
+    return { 'message' : 'User registered' }, 201
 
 #    
 #   Login
@@ -51,7 +51,7 @@ def login():
         
         return {'accessToken': token}, 201
 
-    return { 'message' : 'No User has that email' }, 401
+    return { 'message' : 'User or password incorrect' }, 401
 
 #    
 #   
