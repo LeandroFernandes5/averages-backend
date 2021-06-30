@@ -17,8 +17,8 @@ class User(db.Model):
     imageURL = db.Column('image', db.String(128), nullable=True, unique=False)
     passwordResetToken = db.Column('passwordResetToken', db.String(128), nullable=True,  unique=False)
     status = db.Column('status', db.String(64), nullable=False, unique=False, server_default='Pending')
-    createdDate = db.Column('createdDate', db.DateTime, nullable=False,  unique=False, server_default=func.now())
-    modifiedDate = db.Column('modifiedDate', db.DateTime, nullable=True,  unique=False, onupdate=func.now())
+    createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
+    modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
     driver = relationship("Driver", uselist=False, backref="user")
 
     #
@@ -44,15 +44,15 @@ class Driver(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
     imageURL = db.Column('imageURL', db.String(128), nullable=True, unique=False)
     name = db.Column('name', db.String(64), nullable=False, unique=False)
-    birthDate = db.Column('birthDate', db.DateTime, nullable=True, unique=False)
+    birthDate = db.Column('birthDate', db.DateTime(timezone=True), nullable=True, unique=False)
     ccNumber = db.Column('ccNumber', db.String(64), nullable=True, unique=False)
-    ccExpireDate = db.Column('ccExpireDate', db.DateTime, nullable=True, unique=False)
+    ccExpireDate = db.Column('ccExpireDate', db.DateTime(timezone=True), nullable=True, unique=False)
     driverLicenseNumber = db.Column('driverLicenseNumber', db.String(64), nullable=True, unique=False)
-    driverLicenseExpireDate = db.Column('driverLicenseExpireDate', db.DateTime, nullable=True, unique=False)
-    tccExpireDate = db.Column('tccExpireDate', db.DateTime, nullable=True, unique=False)
-    camExpireDate = db.Column('camExpireDate', db.DateTime, nullable=True, unique=False)
-    createdDate = db.Column('createdDate', db.DateTime, nullable=False,  unique=False, server_default=func.now())
-    modifiedDate = db.Column('modifiedDate', db.DateTime, nullable=True,  unique=False, onupdate=func.now())
+    driverLicenseExpireDate = db.Column('driverLicenseExpireDate', db.DateTime(timezone=True), nullable=True, unique=False)
+    tccExpireDate = db.Column('tccExpireDate', db.DateTime(timezone=True), nullable=True, unique=False)
+    camExpireDate = db.Column('camExpireDate', db.DateTime(timezone=True), nullable=True, unique=False)
+    createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
+    modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
     userId = db.Column('userId', db.Integer, db.ForeignKey('users.id'))
     # supplies = db.relationship('Post', backref='driver', lazy='dynamic')
 
@@ -68,26 +68,63 @@ class Car(db.Model):
     plate = db.Column('plate', db.String(64), nullable=True, unique=False)
     brand = db.Column('brand', db.String(64), nullable=True, unique=False)
     model = db.Column('model', db.String(64), nullable=True, unique=False)
-    registerDate = db.Column('registerDate', db.DateTime, nullable=True, unique=False)
+    registerDate = db.Column('registerDate', db.DateTime(timezone=True), nullable=True, unique=False)
     chassisNo = db.Column('chassisNo', db.String(64), nullable=True, unique=False)
     obraNo = db.Column('obraNo', db.String(64), nullable=True, unique=False)
-    inspectionDate = db.Column('inspectionDate', db.DateTime, nullable=True, unique=False)
-    tccExpireDate = db.Column('tccExpireDate', db.DateTime, nullable=True, unique=False)
-    licenseDate = db.Column('licenseDate', db.DateTime, nullable=True, unique=False)
-    tachographDate = db.Column('tachographDate', db.DateTime, nullable=True, unique=False)
-    createdDate = db.Column('createdDate', db.DateTime, nullable=False,  unique=False, server_default=func.now())
-    modifiedDate = db.Column('modifiedDate', db.DateTime, nullable=True,  unique=False, onupdate=func.now())
+    inspectionDate = db.Column('inspectionDate', db.DateTime(timezone=True), nullable=True, unique=False)
+    tccExpireDate = db.Column('tccExpireDate', db.DateTime(timezone=True), nullable=True, unique=False)
+    licenseDate = db.Column('licenseDate', db.DateTime(timezone=True), nullable=True, unique=False)
+    tachographDate = db.Column('tachographDate', db.DateTime(timezone=True), nullable=True, unique=False)
+    createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
+    modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
+    carAverage = relationship("CarAverages", uselist=False, backref="carAverages")
 
     def __repr__(self):
         return '<Car {}>'.format(self.plate)
 
-# class Supply(db.Model):
- 
-#     __tablename__ = 'supplies'
 
-#     id = db.Column('supply_id', db.Integer, primary_key=True)
-    
-#     created_date = db.Column('created_date', db.DateTime, nullable=False,  unique=False, server_default=func.now())
-#     modified_date = db.Column('modified_date', db.DateTime, nullable=True,  unique=False, onupdate=func.now())
-#     driver_id = db.Column(db.Integer, db.ForeignKey('drivers.id'))
+class CarAverages(db.Model):
+
+    __tablename__ = 'caraverages'
+
+    id = db.Column('id', db.Integer, primary_key=True)
+    liters = db.Column('liters', db.Float(precision=10, decimal_return_scale=2), nullable=False, unique=False)
+    km = db.Column('km', db.Integer, nullable=False, unique=False)
+    year = db.Column('year', db.Integer, nullable=False, unique=False)
+    month = db.Column('month', db.Integer, nullable=False, unique=False)
+    createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
+    modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
+    carId = db.Column('carId', db.Integer, db.ForeignKey('cars.id'))
+
+    def __repr__(self):
+        return '<CarAverage {}>'.format(self.id)
+
+class gasStation(db.Model):
+
+    __tablename__ = 'gasstations'
+
+    id = db.Column('id', db.Integer, primary_key=True)
+    name = name = db.Column('name', db.String(64), nullable=False, unique=False)
+    createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
+    modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
+
+    def __repr__(self):
+        return '<GasStation {}>'.format(self.name)
+
+
+class Supply(db.Model):
+ 
+    __tablename__ = 'supplies'
+
+    id = db.Column('id', db.Integer, primary_key=True)
+    totalKm = db.Column('totalKm', db.Integer, nullable=False, unique=False)
+    liters = db.Column('liters', db.Float(precision=10, decimal_return_scale=2), nullable=False, unique=False)
+    fullTank = db.Column('fullTank', db.Boolean, nullable=False, unique=False)
+    cost =  db.Column('cost', db.Float(precision=10, decimal_return_scale=2), nullable=False, unique=False, default=0)
+    supplyDate = db.Column('supplyDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
+    average = db.Column('average', db.Float(precision=10, decimal_return_scale=2), nullable=False, unique=False)
+    createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
+    modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
+    # driverId = db.Column(db.Integer, db.ForeignKey('drivers.id'))
+    # carId
     
