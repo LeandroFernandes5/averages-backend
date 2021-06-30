@@ -131,5 +131,7 @@ class Supply(db.Model):
     driverId = db.Column(db.Integer, db.ForeignKey('drivers.id'))
     driver = relationship("Driver")
     carId = db.Column(db.Integer, db.ForeignKey('cars.id'))
-    car = relationship("car")
+    car = relationship("Car")
     
+    def __repr__(self):
+        return '<Supply {}>'.format(self.id)
