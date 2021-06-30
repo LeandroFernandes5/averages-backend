@@ -54,7 +54,7 @@ class Driver(db.Model):
     createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
     userId = db.Column('userId', db.Integer, db.ForeignKey('users.id'))
-    # supplies = db.relationship('Post', backref='driver', lazy='dynamic')
+    supplies = relationship("Supply")
 
     def __repr__(self):
         return '<Driver {}>'.format(self.name)   
@@ -78,6 +78,7 @@ class Car(db.Model):
     createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
     carAverage = relationship("CarAverages", uselist=False, backref="carAverages")
+    supplies = relationship("Supply")
 
     def __repr__(self):
         return '<Car {}>'.format(self.plate)
@@ -99,7 +100,7 @@ class CarAverages(db.Model):
     def __repr__(self):
         return '<CarAverage {}>'.format(self.id)
 
-class gasStation(db.Model):
+class GasStation(db.Model):
 
     __tablename__ = 'gasstations'
 
@@ -125,6 +126,13 @@ class Supply(db.Model):
     average = db.Column('average', db.Float(precision=10, decimal_return_scale=2), nullable=False, unique=False)
     createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
-    # driverId = db.Column(db.Integer, db.ForeignKey('drivers.id'))
-    # carId
+    gasStationId = db.Column(db.Integer, db.ForeignKey('gasstations.id'))
+    gasStation = relationship("GasStation")
+    driverId = db.Column(db.Integer, db.ForeignKey('drivers.id'))
+    driver = relationship("Driver")
+    carId = db.Column(db.Integer, db.ForeignKey('cars.id'))
+    car = relationship("car")
     
+    ## TODO
+    ## Add Relationships with remaining tables
+    ## 
