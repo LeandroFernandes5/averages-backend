@@ -133,6 +133,3 @@ class Supply(db.Model):
     carId = db.Column(db.Integer, db.ForeignKey('cars.id'))
     car = relationship("car")
     
-    ## TODO
-    ## Add Relationships with remaining tables
-    ## 
