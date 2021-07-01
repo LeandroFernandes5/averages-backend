@@ -17,12 +17,13 @@ class UserSchema(Schema):
 
 class DriverSchema(Schema):
     id = fields.Int()
+    imageURL = fields.String() 
     name = fields.String()
     birthDate = fields.DateTime()
     ccNumber = fields.String()
     ccExpireDate = fields.DateTime()
     driverLicenseNumber = fields.String() 
-    driverLicenseExpireDate = fields.String() 
+    driverLicenseExpireDate = fields.DateTime() 
     tccExpireDate  = fields.DateTime()
     camExpireDate = fields.DateTime() 
     createdDate = fields.DateTime(load_only=True)

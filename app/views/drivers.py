@@ -12,23 +12,29 @@ from app.decorators import token_perms_required
 # @token_perms_required(role=['Admin','Supervisor'])
 def post_driver():
 
+    schema = DriverSchema()
+
+    result = schema.load(request.json)
+
+    # driver = Driver(result)
     driver = Driver(
-        name = request.json.get('name'),
-        image = request.json.get('image'),
-        birthDate = request.json.get('birthDate'),
-        ccNumber = request.json.get('ccNumber'),
-        ccExpireDate = request.json.get('ccExpireDate'),
-        driverLicenseNumber = request.json.get('driverLicenseNumber'),
-        driverLicenseExpireDate = request.json.get('driverLicenseExpireDate'),
-        tccExpireDate = request.json.get('tccExpireDate'),
-        camExpireDate = request.json.get('camExpireDate'),
-        userId = request.json.get('userId')
+        id = result.get('id'),
+        name = result.get('name'),
+        imageURL = result.get('imageURL'),
+        birthDate = result.get('birthDate'),
+        ccNumber = result.get('ccNumber'),
+        ccExpireDate = result.get('ccExpireDate'),
+        driverLicenseNumber = result.get('driverLicenseNumber'),
+        driverLicenseExpireDate = result.get('driverLicenseExpireDate'),
+        tccExpireDate = result.get('tccExpireDate'),
+        camExpireDate = result.get('camExpireDate'),
+        userId = result.get('userId')
     )
 
     db.session.add(driver)
     db.session.commit()
 
-    return { 'message' : 'Driver created!' }, 201
+    return { 'message' : 'Driver created' }, 201
 
 
 #    
@@ -43,7 +49,7 @@ def get_drivers():
     result = DriverSchema(
         many=True,
         only=('id', 'name', 'ccNumber', 'driverLicenseNumber', 'driverLicenseExpireDate', 
-        'birthDate', 'camExpireDate', 'tccExpireDate', 'ccExpireDate', 'user',)
+        'birthDate', 'camExpireDate', 'tccExpireDate', 'ccExpireDate')
         ).dumps(drivers)
     
    
@@ -65,4 +71,4 @@ def get_driver(id):
             'birthDate', 'camExpireDate', 'tccExpireDate', 'ccExpireDate', 'user',)
         ).dumps(driver), 200
 
-    return { 'message' : 'Driver not found!' }, 404
+    return { 'message' : 'Driver not found' }, 404

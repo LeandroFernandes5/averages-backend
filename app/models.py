@@ -5,7 +5,7 @@ from sqlalchemy.sql import func
 from marshmallow import Schema, fields
 
 #
-#   Database representation for ORM to use
+#   Database representation for ORM use
 #
 class User(db.Model):
  
@@ -78,7 +78,7 @@ class Car(db.Model):
     tachographDate = db.Column('tachographDate', db.DateTime(timezone=True), nullable=True, unique=False)
     createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
-    carAverage = relationship("CarAverages", uselist=False, backref="carAverages")
+    carAverage = relationship("CarAverage", uselist=False, backref="carAverages")
 
     def __repr__(self):
         return '<Car {}>'.format(self.plate)
