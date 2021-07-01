@@ -24,3 +24,19 @@ def get_supplies():
     return result, 200
 
     
+#
+#   Get a Driver Supplies
+#
+@app.get('/drivers/<driverId>/supplies')
+# @token_perms_required(role=['Admin','Supervisor'])
+def get_driver(driverId):
+    
+    driver = Supply.query.filter_by(id=driverId).first()
+
+    if driver:
+        return SupplySchema(
+            only=('id', 'name', 'ccNumber', 'driverLicenseNumber', 'driverLicenseExpireDate', 
+            'birthDate', 'camExpireDate', 'tccExpireDate', 'ccExpireDate', 'user',)
+        ).dumps(driver), 200
+
+    return { 'message' : 'Driver not found' }, 404

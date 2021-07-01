@@ -27,7 +27,7 @@ def get_gasstations():
 #
 @app.post('/gasstations')
 # @token_perms_required(role=['Admin','Supervisor'])
-def post_car():
+def post_gasstations():
 
     schema = GasStationSchema()
 
@@ -41,4 +41,4 @@ def post_car():
     db.session.add(gas)
     db.session.commit()
 
-    return { 'message' : 'Gas Stations created' }, 201
+    return { 'message' : 'Gas Station created' }, 201
