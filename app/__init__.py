@@ -23,7 +23,7 @@ ma = Marshmallow(app)
 # 
 #    Import views
 #
-from app.views import users, drivers
+from app.views import users, drivers, gasstations, cars, supplies
 from app import models
 from app.serialization import UserSchema, DriverSchema
 
