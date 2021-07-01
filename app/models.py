@@ -4,7 +4,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import func
 from marshmallow import Schema, fields
 
-
+#
+#   Database representation for ORM to use
+#
 class User(db.Model):
  
     __tablename__ = 'users'
@@ -82,7 +84,7 @@ class Car(db.Model):
         return '<Car {}>'.format(self.plate)
 
 
-class CarAverages(db.Model):
+class CarAverage(db.Model):
 
     __tablename__ = 'caraverages'
 
