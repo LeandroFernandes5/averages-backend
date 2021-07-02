@@ -5,9 +5,9 @@ from app.serialization import CarSchema
 from app.decorators import token_perms_required
 
 #    
-#   Get all Supplies
+#   Get a Cars
 # 
-@app.get('/car')
+@app.get('/cars')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_cars():
 
@@ -54,3 +54,39 @@ def post_car():
     db.session.commit()
 
     return { 'message' : 'Car created' }, 201
+
+
+#
+#   Get a Car
+#
+@app.get('/cars/<int:id>')
+# @token_perms_required(role=['Admin','Supervisor'])
+def get_car(id):
+    
+    car = Car.query.filter_by(id=id).first()
+
+    if car:
+        return CarSchema(
+            only=('id', 'plate', 'model', 'registerDate', 'chassisNo', 
+            'obraNo', 'inspectionDate', 'tccExpireDate', 'licenseDate', 'tachographDate',)
+        ).dumps(car), 200
+
+    return { 'message' : 'Car not found' }, 404
+
+
+#
+#   Delete a Car
+#
+@app.delete('/cars/<int:id>')
+# @token_perms_required(role=['Admin','Supervisor'])
+def del_driver(id):
+    
+    car = Car.query.filter_by(id=id).first()
+
+    if car:
+        db.session.delete(car)
+        db.session.commit()
+
+        return { 'message' : 'Car deleted' }, 200
+
+    return { 'message' : 'Car not found' }, 404

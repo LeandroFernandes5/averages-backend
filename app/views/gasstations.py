@@ -42,3 +42,21 @@ def post_gasstations():
     db.session.commit()
 
     return { 'message' : 'Gas Station created' }, 201
+
+
+#
+#   Delete Gas Station
+#
+@app.delete('/drivers/<int:id>')
+# @token_perms_required(role=['Admin','Supervisor'])
+def del_driver(id):
+    
+    gas = GasStation.query.filter_by(id=id).first()
+
+    if gas:
+        db.session.delete(gas)
+        db.session.commit()
+
+        return { 'message' : 'Gas Station deleted' }, 200
+
+    return { 'message' : 'Gas Station not found' }, 404

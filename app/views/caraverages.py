@@ -15,8 +15,7 @@ def get_caraverages():
     
     result = CarAveragesSchema(
         many=True,
-        only=('id', 'liters', 'km', 'year', 
-        'month', 'car')
+        only=('id', 'liters', 'km', 'year', 'month', 'car')
         ).dumps(avg)
     
    

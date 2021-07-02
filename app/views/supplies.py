@@ -27,9 +27,9 @@ def get_supplies():
 #
 #   Get a Driver Supplies
 #
-@app.get('/drivers/<driverId>/supplies')
+@app.get('/drivers/<int:driverId>/supplies')
 # @token_perms_required(role=['Admin','Supervisor'])
-def get_driver(driverId):
+def get_driver_supplies(driverId):
     
     driver = Supply.query.filter_by(id=driverId).first()
 
@@ -40,3 +40,21 @@ def get_driver(driverId):
         ).dumps(driver), 200
 
     return { 'message' : 'Driver not found' }, 404
+
+
+#
+#   Delete Supply
+#
+@app.delete('/supplies/<int:id>')
+# @token_perms_required(role=['Admin','Supervisor'])
+def supplies_driver(id):
+    
+    supply = Supply.query.filter_by(id=id).first()
+
+    if supply:
+        db.session.delete(supply)
+        db.session.commit()
+
+        return { 'message' : 'Supply deleted' }, 200
+
+    return { 'message' : 'Supply not found' }, 404

@@ -59,7 +59,7 @@ def get_drivers():
 #
 #   Get Driver
 #
-@app.get('/drivers/<id>')
+@app.get('/drivers/<int:id>')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_driver(id):
     
@@ -70,5 +70,23 @@ def get_driver(id):
             only=('id', 'name', 'ccNumber', 'driverLicenseNumber', 'driverLicenseExpireDate', 
             'birthDate', 'camExpireDate', 'tccExpireDate', 'ccExpireDate', 'user',)
         ).dumps(driver), 200
+
+    return { 'message' : 'Driver not found' }, 404
+
+
+#
+#   Delete Driver
+#
+@app.delete('/drivers/<int:id>')
+# @token_perms_required(role=['Admin','Supervisor'])
+def del_driver(id):
+    
+    driver = Driver.query.filter_by(id=id).first()
+
+    if driver:
+        db.session.delete(driver)
+        db.session.commit()
+
+        return { 'message' : 'Driver deleted' }, 200
 
     return { 'message' : 'Driver not found' }, 404
