@@ -1,7 +1,7 @@
 from flask import app, request, jsonify
 from app import app, db
 from app.models import User
-from app.serialization import UserSchema
+from app.users.schema import UserSchema
 import jwt, datetime
 from app.decorators import token_perms_required
 

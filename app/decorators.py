@@ -22,11 +22,11 @@ def token_perms_required(role):
                data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=app.config['ALGORITHM'])
 
                if not data['role'] in role:
-                  return jsonify({'message': 'Forbidden'}), 403
+                  return {'message': 'Forbidden'}, 403
 
             except:
 
-               return jsonify({'message': 'Token not valid'}), 403
+               return {'message': 'Token not valid'}, 400
             
             return f(*args, **kwargs)
         return wrapped

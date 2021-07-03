@@ -1,7 +1,7 @@
 from flask import app, request
 from app import app, db
 from app.models import GasStation
-from app.serialization import GasStationSchema
+from app.gasStations.schema import GasStationSchema
 from app.decorators import token_perms_required
 
 #    

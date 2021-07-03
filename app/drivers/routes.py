@@ -1,7 +1,7 @@
 from flask import app, request
 from app import app, db
 from app.models import Driver
-from app.serialization import DriverSchema
+from app.drivers.schema import DriverSchema
 from app.decorators import token_perms_required
 
 

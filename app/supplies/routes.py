@@ -1,7 +1,7 @@
-from flask import app, request
+from flask import app
 from app import app, db
 from app.models import Supply
-from app.serialization import SupplySchema
+from app.supplies.schema import SupplySchema
 from app.decorators import token_perms_required
 
 #    

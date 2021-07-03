@@ -21,10 +21,21 @@ migrate = Migrate(app, db)
 ma = Marshmallow(app)
 
 # 
-#    Import views
+#    Import 
 #
-from app.views import users, drivers, cars, caraverages, gasstations, supplies
 from app import models
-from app.serialization import UserSchema, DriverSchema, CarSchema, CarAveragesSchema, GasStationSchema, SupplySchema
+from app.carAverages.routes import *
+from app.cars.routes import *
+from app.drivers.routes import *
+from app.gasStations.routes import *
+from app.supplies.routes import *
+from app.users.routes import *
+from app.carAverages.schema import *
+from app.cars.schema import *
+from app.drivers.schema import *
+from app.gasStations.schema import *
+from app.supplies.schema import *
+from app.users.schema import *
+
 
 

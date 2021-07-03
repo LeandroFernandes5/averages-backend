@@ -1,7 +1,7 @@
 from flask import app, request
 from app import app, db
 from app.models import CarAverage
-from app.serialization import CarAveragesSchema
+from app.carAverages.schema import CarAveragesSchema
 from app.decorators import token_perms_required
 
 #    
