@@ -90,3 +90,23 @@ def del_driver(id):
         return { 'message' : 'Driver deleted' }, 200
 
     return { 'message' : 'Driver not found' }, 404
+
+
+#
+#   Update a driver
+#
+@app.put('/drivers/<int:id>')
+# @token_perms_required(role=['Admin','Supervisor'])
+def put_driver(id):
+
+    driver = Driver.query.filter_by(id=id).first()
+    
+    if driver:
+        for key, value in request.json.items():
+            setattr(driver, key, value)
+
+        db.session.commit()
+
+        return { 'message' : 'Driver updated' }, 200
+    
+    return { 'message' : 'Driver not found' }, 404 

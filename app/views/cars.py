@@ -24,8 +24,8 @@ def get_cars():
     return result, 200
 
 
-    #
-#   Post a new driver
+#
+#   Post a car
 #
 @app.post('/cars')
 # @token_perms_required(role=['Admin','Supervisor'])
@@ -79,7 +79,7 @@ def get_car(id):
 #
 @app.delete('/cars/<int:id>')
 # @token_perms_required(role=['Admin','Supervisor'])
-def del_driver(id):
+def del_car(id):
     
     car = Car.query.filter_by(id=id).first()
 
@@ -90,3 +90,23 @@ def del_driver(id):
         return { 'message' : 'Car deleted' }, 200
 
     return { 'message' : 'Car not found' }, 404
+
+
+#
+#   Update a car
+#
+@app.put('/cars/<int:id>')
+# @token_perms_required(role=['Admin','Supervisor'])
+def put_car(id):
+
+    car = Car.query.filter_by(id=id).first()
+
+    if car: 
+        for key, value in request.json.items():
+            setattr(car, key, value)
+
+        db.session.commit()
+
+        return { 'message' : 'Car created' }, 200
+
+    return { 'message' : 'Car not found' }, 404 

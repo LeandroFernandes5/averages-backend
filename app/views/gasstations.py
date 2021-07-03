@@ -47,9 +47,9 @@ def post_gasstations():
 #
 #   Delete Gas Station
 #
-@app.delete('/drivers/<int:id>')
+@app.delete('/gasstations/<int:id>')
 # @token_perms_required(role=['Admin','Supervisor'])
-def del_driver(id):
+def del_gasstation(id):
     
     gas = GasStation.query.filter_by(id=id).first()
 
@@ -58,5 +58,25 @@ def del_driver(id):
         db.session.commit()
 
         return { 'message' : 'Gas Station deleted' }, 200
+
+    return { 'message' : 'Gas Station not found' }, 404
+
+
+#
+#   Update Gas Station
+#
+@app.put('/gasstations/<int:id>')
+# @token_perms_required(role=['Admin','Supervisor'])
+def put_gasstation(id):
+    
+    gas = GasStation.query.filter_by(id=id).first()
+
+    if gas:
+        for key, value in request.json.items():
+            setattr(gas, key, value)
+
+        db.session.commit()
+
+        return { 'message' : 'Gas Station updated' }, 200
 
     return { 'message' : 'Gas Station not found' }, 404
