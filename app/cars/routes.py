@@ -1,4 +1,4 @@
-from flask import app, request
+from flask import app, request, jsonify
 from app import app, db
 from app.models import Car
 from app.cars.schema import CarSchema
@@ -21,7 +21,7 @@ def get_cars():
         ).dumps(cars)
     
    
-    return result, 200
+    return jsonify(result), 200
 
 
 #
@@ -53,7 +53,7 @@ def post_car():
     db.session.add(car)
     db.session.commit()
 
-    return { 'message' : 'Car created' }, 201
+    return jsonify({ 'message' : 'Car created' }), 201
 
 
 #
@@ -66,12 +66,14 @@ def get_car(id):
     car = Car.query.filter_by(id=id).first()
 
     if car:
-        return CarSchema(
+        result =  CarSchema(
             only=('id', 'plate', 'model', 'registerDate', 'chassisNo', 
             'obraNo', 'inspectionDate', 'tccExpireDate', 'licenseDate', 'tachographDate',)
-        ).dumps(car), 200
+        ).dumps(car)
+        
+        return jsonify(result), 200
 
-    return { 'message' : 'Car not found' }, 404
+    return jsonify({ 'message' : 'Car not found' }), 404
 
 
 #
@@ -87,9 +89,9 @@ def del_car(id):
         db.session.delete(car)
         db.session.commit()
 
-        return { 'message' : 'Car deleted' }, 200
+        return jsonify({ 'message' : 'Car deleted' }), 200
 
-    return { 'message' : 'Car not found' }, 404
+    return jsonify({ 'message' : 'Car not found' }), 404
 
 
 #
@@ -107,6 +109,6 @@ def put_car(id):
 
         db.session.commit()
 
-        return { 'message' : 'Car created' }, 200
+        return jsonify({ 'message' : 'Car created' }), 200
 
-    return { 'message' : 'Car not found' }, 404 
+    return jsonify({ 'message' : 'Car not found' }), 404 

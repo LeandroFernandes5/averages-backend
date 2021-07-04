@@ -15,7 +15,7 @@ def register():
     email = request.json.get('email')
     
     if User.query.filter_by(email=email).first():
-         return {'message': 'Email already exists' }, 409
+         return jsonify({'message': 'Email already exists' }), 409
     
     user = User(
         email = request.json.get('email'),
@@ -26,7 +26,7 @@ def register():
     db.session.add(user)
     db.session.commit()
     
-    return { 'message' : 'User registered' }, 201
+    return jsonify({ 'message' : 'User registered' }), 201
 
 #    
 #   Login
@@ -49,9 +49,9 @@ def login():
         
         token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm=app.config['ALGORITHM'])
         
-        return {'accessToken': token}, 201
+        return jsonify({'accessToken': token}), 201
 
-    return { 'message' : 'User or password incorrect' }, 401
+    return jsonify({ 'message' : 'User or password incorrect' }), 401
 
 #    
 #   
@@ -67,4 +67,4 @@ def users():
         only=('id', 'email', 'name', 'role', 'status', )
         ).dumps(users)
     
-    return result, 200
+    return jsonify(result), 200

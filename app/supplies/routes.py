@@ -1,4 +1,4 @@
-from flask import app
+from flask import app, jsonify
 from app import app, db
 from app.models import Supply
 from app.supplies.schema import SupplySchema
@@ -21,7 +21,7 @@ def get_supplies():
         ).dumps(supplies)
     
    
-    return result, 200
+    return jsonify(result), 200
 
     
 #
@@ -34,12 +34,14 @@ def get_driver_supplies(driverId):
     driver = Supply.query.filter_by(id=driverId).first()
 
     if driver:
-        return SupplySchema(
+        result = SupplySchema(
             only=('id', 'name', 'ccNumber', 'driverLicenseNumber', 'driverLicenseExpireDate', 
             'birthDate', 'camExpireDate', 'tccExpireDate', 'ccExpireDate', 'user',)
-        ).dumps(driver), 200
+        ).dumps(driver)
+        
+        return jsonify(result), 200
 
-    return { 'message' : 'Driver not found' }, 404
+    return jsonify({ 'message' : 'Driver not found' }), 404
 
 
 #
@@ -55,6 +57,6 @@ def supplies_driver(id):
         db.session.delete(supply)
         db.session.commit()
 
-        return { 'message' : 'Supply deleted' }, 200
+        return jsonify({ 'message' : 'Supply deleted' }), 200
 
-    return { 'message' : 'Supply not found' }, 404
+    return jsonify({ 'message' : 'Supply not found' }), 404

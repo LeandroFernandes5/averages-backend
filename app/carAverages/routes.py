@@ -1,4 +1,4 @@
-from flask import app, request
+from flask import app, request, jsonify
 from app import app, db
 from app.models import CarAverage
 from app.carAverages.schema import CarAveragesSchema
@@ -19,6 +19,6 @@ def get_caraverages():
         ).dumps(avg)
     
    
-    return result, 200
+    return jsonify(result), 200
 
     

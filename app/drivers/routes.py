@@ -1,4 +1,4 @@
-from flask import app, request
+from flask import app, request, jsonify
 from app import app, db
 from app.models import Driver
 from app.drivers.schema import DriverSchema
@@ -34,7 +34,7 @@ def post_driver():
     db.session.add(driver)
     db.session.commit()
 
-    return { 'message' : 'Driver created' }, 201
+    return jsonify({ 'message' : 'Driver created' }), 201
 
 
 #    
@@ -53,7 +53,7 @@ def get_drivers():
         ).dumps(drivers)
     
    
-    return result, 200
+    return jsonify(result), 200
 
     
 #
@@ -66,12 +66,14 @@ def get_driver(id):
     driver = Driver.query.filter_by(id=id).first()
 
     if driver:
-        return DriverSchema(
+        result = DriverSchema(
             only=('id', 'name', 'ccNumber', 'driverLicenseNumber', 'driverLicenseExpireDate', 
-            'birthDate', 'camExpireDate', 'tccExpireDate', 'ccExpireDate', 'user',)
-        ).dumps(driver), 200
+            'birthDate', 'camExpireDate', 'tccExpireDate', 'ccExpireDate',)
+        ).dumps(driver)
 
-    return { 'message' : 'Driver not found' }, 404
+        return jsonify(result), 200
+
+    return jsonify({ 'message' : 'Driver not found' }), 404
 
 
 #
@@ -87,9 +89,9 @@ def del_driver(id):
         db.session.delete(driver)
         db.session.commit()
 
-        return { 'message' : 'Driver deleted' }, 200
+        return jsonify({ 'message' : 'Driver deleted' }), 200
 
-    return { 'message' : 'Driver not found' }, 404
+    return jsonify({ 'message' : 'Driver not found' }), 404
 
 
 #
@@ -107,6 +109,6 @@ def put_driver(id):
 
         db.session.commit()
 
-        return { 'message' : 'Driver updated' }, 200
+        return jsonify({ 'message' : 'Driver updated' }), 200
     
-    return { 'message' : 'Driver not found' }, 404 
+    return jsonify({ 'message' : 'Driver not found' }), 404 

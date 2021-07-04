@@ -1,4 +1,4 @@
-from flask import app, request
+from flask import app, request, jsonify
 from app import app, db
 from app.models import GasStation
 from app.gasStations.schema import GasStationSchema
@@ -19,7 +19,7 @@ def get_gasstations():
         ).dumps(gas)
     
    
-    return result, 200
+    return jsonify(result), 200
 
 
     #
@@ -41,7 +41,7 @@ def post_gasstations():
     db.session.add(gas)
     db.session.commit()
 
-    return { 'message' : 'Gas Station created' }, 201
+    return jsonify({ 'message' : 'Gas Station created' }), 201
 
 
 #
@@ -57,9 +57,9 @@ def del_gasstation(id):
         db.session.delete(gas)
         db.session.commit()
 
-        return { 'message' : 'Gas Station deleted' }, 200
+        return jsonify({ 'message' : 'Gas Station deleted' }), 200
 
-    return { 'message' : 'Gas Station not found' }, 404
+    return jsonify({ 'message' : 'Gas Station not found' }), 404
 
 
 #
@@ -77,6 +77,6 @@ def put_gasstation(id):
 
         db.session.commit()
 
-        return { 'message' : 'Gas Station updated' }, 200
+        return jsonify({ 'message' : 'Gas Station updated' }), 200
 
-    return { 'message' : 'Gas Station not found' }, 404
+    return jsonify({ 'message' : 'Gas Station not found' }), 404
