@@ -76,6 +76,7 @@ class Car(db.Model):
     tccExpireDate = db.Column('tccExpireDate', db.DateTime(timezone=True), nullable=True, unique=False)
     licenseExpireDate = db.Column('licenseExpireDate', db.DateTime(timezone=True), nullable=True, unique=False)
     tachographDate = db.Column('tachographDate', db.DateTime(timezone=True), nullable=True, unique=False)
+    status = db.Column('status', db.String(64), nullable=False, unique=False, server_default='Active')
     createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
     carAverage = relationship("CarAverage", uselist=False, backref="carAverages")
