@@ -66,7 +66,7 @@ class Car(db.Model):
     __tablename__ = 'cars'
 
     id = db.Column('id', db.Integer, primary_key=True)
-    plate = db.Column('plate', db.String(64), nullable=True, unique=False)
+    plate = db.Column('plate', db.String(64), nullable=False, unique=False)
     brand = db.Column('brand', db.String(64), nullable=True, unique=False)
     model = db.Column('model', db.String(64), nullable=True, unique=False)
     registerDate = db.Column('registerDate', db.DateTime(timezone=True), nullable=True, unique=False)
