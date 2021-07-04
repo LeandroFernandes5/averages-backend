@@ -74,7 +74,7 @@ class Car(db.Model):
     obraNo = db.Column('obraNo', db.String(64), nullable=True, unique=False)
     inspectionDate = db.Column('inspectionDate', db.DateTime(timezone=True), nullable=True, unique=False)
     tccExpireDate = db.Column('tccExpireDate', db.DateTime(timezone=True), nullable=True, unique=False)
-    licenseDate = db.Column('licenseDate', db.DateTime(timezone=True), nullable=True, unique=False)
+    licenseExpireDate = db.Column('licenseExpireDate', db.DateTime(timezone=True), nullable=True, unique=False)
     tachographDate = db.Column('tachographDate', db.DateTime(timezone=True), nullable=True, unique=False)
     createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
