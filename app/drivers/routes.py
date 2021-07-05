@@ -1,7 +1,7 @@
 from flask import app, request, jsonify
 from app import app, db
 from app.models import Driver
-from app.drivers.schema import DriverSchema
+from app.drivers.schema import DriverSchema, DriverSimplifiedSchema
 from app.decorators import token_perms_required
 
 
@@ -16,7 +16,6 @@ def post_driver():
 
     result = schema.load(request.json)
 
-    # driver = Driver(result)
     driver = Driver(
         id = result.get('id'),
         name = result.get('name'),
@@ -59,11 +58,11 @@ def get_drivers():
 #
 #   Get Driver
 #
-@app.get('/drivers/<int:id>')
+@app.get('/drivers/<int:driverId>')
 # @token_perms_required(role=['Admin','Supervisor'])
-def get_driver(id):
+def get_driver(driverId):
     
-    driver = Driver.query.filter_by(id=id).first()
+    driver = Driver.query.filter_by(id=driverId).first()
 
     if driver:
         result = DriverSchema(
@@ -79,11 +78,11 @@ def get_driver(id):
 #
 #   Delete Driver
 #
-@app.delete('/drivers/<int:id>')
+@app.delete('/drivers/<int:driverId>')
 # @token_perms_required(role=['Admin','Supervisor'])
-def del_driver(id):
+def del_driver(driverId):
     
-    driver = Driver.query.filter_by(id=id).first()
+    driver = Driver.query.filter_by(id=driverId).first()
 
     if driver:
         db.session.delete(driver)
@@ -97,11 +96,11 @@ def del_driver(id):
 #
 #   Update a driver
 #
-@app.put('/drivers/<int:id>')
+@app.patch('/drivers/<int:driverId>')
 # @token_perms_required(role=['Admin','Supervisor'])
-def put_driver(id):
+def patch_driver(driverId):
 
-    driver = Driver.query.filter_by(id=id).first()
+    driver = Driver.query.filter_by(id=driverId).first()
     
     if driver:
         for key, value in request.json.items():
@@ -112,3 +111,25 @@ def put_driver(id):
         return jsonify({ 'message' : 'Driver updated' }), 200
     
     return jsonify({ 'message' : 'Driver not found' }), 404 
+
+
+#
+#   Get Driver Simplified
+#
+@app.get('/drivers-simplified')
+# @token_perms_required(role=['Admin','Supervisor'])
+def driver_simplified():
+    
+    driver = Driver.query.all()
+
+    print(driver)
+
+    if driver:
+        result = DriverSimplifiedSchema(
+            many=True,
+            only=('id', 'name', 'user')
+        ).dumps(driver)
+
+        return result, 200
+
+    return jsonify({ 'message' : 'Driver not found' }), 404

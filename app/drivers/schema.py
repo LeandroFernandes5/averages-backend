@@ -15,4 +15,10 @@ class DriverSchema(Schema):
     camExpireDate = fields.DateTime() 
     createdDate = fields.DateTime(load_only=True)
     modifiedDate = fields.DateTime(load_only=True)
-    user = fields.Nested(UserSchema(only=("id","email","name","status","role")))
+    user = fields.Nested(UserSchema(only=("id","email","name","status","role",)))
+
+
+class DriverSimplifiedSchema(Schema):
+    id = fields.Int()
+    name = fields.String()
+    user = fields.Nested(UserSchema(only=("id",)))
