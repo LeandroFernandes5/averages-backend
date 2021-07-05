@@ -130,6 +130,6 @@ def driver_simplified():
             only=('id', 'name', 'user')
         ).dumps(driver)
 
-        return result, 200
+        return jsonify(result), 200
 
     return jsonify({ 'message' : 'Driver not found' }), 404

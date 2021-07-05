@@ -22,7 +22,7 @@ def get_gasstations():
     return jsonify(result), 200
 
 
-    #
+#
 #   Post a new Gas Station
 #
 @app.post('/gasstations')
