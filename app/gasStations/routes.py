@@ -5,7 +5,7 @@ from app.gasStations.schema import GasStationSchema
 from app.decorators import token_perms_required
 
 #    
-#   Get all Supplies
+#   Get all Gas Stations
 # 
 @app.get('/gasstations')
 # @token_perms_required(role=['Admin','Supervisor'])
@@ -23,7 +23,7 @@ def get_gasstations():
 
 
     #
-#   Post a new driver
+#   Post a new Gas Station
 #
 @app.post('/gasstations')
 # @token_perms_required(role=['Admin','Supervisor'])
@@ -47,11 +47,11 @@ def post_gasstations():
 #
 #   Delete Gas Station
 #
-@app.delete('/gasstations/<int:id>')
+@app.delete('/gasstations/<int:gasStationId>')
 # @token_perms_required(role=['Admin','Supervisor'])
-def del_gasstation(id):
+def del_gasstation(gasStationId):
     
-    gas = GasStation.query.filter_by(id=id).first()
+    gas = GasStation.query.filter_by(id=gasStationId).first()
 
     if gas:
         db.session.delete(gas)
@@ -65,11 +65,11 @@ def del_gasstation(id):
 #
 #   Update Gas Station
 #
-@app.put('/gasstations/<int:id>')
+@app.patch('/gasstations/<int:gasStationId>')
 # @token_perms_required(role=['Admin','Supervisor'])
-def put_gasstation(id):
+def patch_gasstation(gasStationId):
     
-    gas = GasStation.query.filter_by(id=id).first()
+    gas = GasStation.query.filter_by(id=gasStationId).first()
 
     if gas:
         for key, value in request.json.items():
