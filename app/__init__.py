@@ -21,7 +21,7 @@ migrate = Migrate(app, db)
 ma = Marshmallow(app)
 
 # 
-#    Import 
+#    Import Routes
 #
 from app import models
 from app.carAverages.routes import *
@@ -30,12 +30,18 @@ from app.drivers.routes import *
 from app.gasStations.routes import *
 from app.supplies.routes import *
 from app.users.routes import *
+from app.me.routes import *
+
+# 
+#    Import Schema
+#
 from app.carAverages.schema import *
 from app.cars.schema import *
 from app.drivers.schema import *
 from app.gasStations.schema import *
 from app.supplies.schema import *
 from app.users.schema import *
+
 
 
 
