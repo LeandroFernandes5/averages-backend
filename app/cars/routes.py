@@ -8,7 +8,7 @@ from app.decorators import token_perms_required
 #   Get Cars simplified
 # 
 @app.get('/cars-simplified')
-# @token_perms_required(role=['Admin','Supervisor'])
+# @token_perms_required(role=['Admin','Supervisor', 'Driver'])
 def get_cars_simplified():
 
     cars = Car.query.filter_by(status='Active').all()
@@ -25,7 +25,7 @@ def get_cars_simplified():
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_cars():
 
-    cars = Car.query.filter_by(status='Active').all()
+    cars = Car.query.all()
     
     result = CarSchema(
         many=True,
@@ -55,6 +55,7 @@ def post_car():
         brand = result.get('brand'),
         model = result.get('model'),
         registerDate = result.get('registerDate'),
+        status = result.get('status'),
         chassisNo = result.get('chassisNo'),
         obraNo = result.get('obraNo'),
         inspectionDate = result.get('inspectionDate'),
@@ -72,11 +73,11 @@ def post_car():
 #
 #   Get a Car
 #
-@app.get('/cars/<int:id>')
+@app.get('/cars/<int:carId>')
 # @token_perms_required(role=['Admin','Supervisor'])
-def get_car(id):
+def get_car(carId):
     
-    car = Car.query.filter_by(id=id).first()
+    car = Car.query.filter_by(id=carId).first()
 
     if car:
         result =  CarSchema(
@@ -92,11 +93,11 @@ def get_car(id):
 #
 #   Delete a Car
 #
-@app.delete('/cars/<int:id>')
+@app.delete('/cars/<int:carId>')
 # @token_perms_required(role=['Admin','Supervisor'])
-def del_car(id):
+def del_car(carId):
     
-    car = Car.query.filter_by(id=id).first()
+    car = Car.query.filter_by(id=carId).first()
 
     if car:
         db.session.delete(car)
@@ -110,11 +111,11 @@ def del_car(id):
 #
 #   Update a car
 #
-@app.patch('/cars/<int:id>')
+@app.patch('/cars/<int:carId>')
 # @token_perms_required(role=['Admin','Supervisor'])
-def patch_car(id):
+def patch_car(carId):
 
-    car = Car.query.filter_by(id=id).first()
+    car = Car.query.filter_by(id=carId).first()
 
     if car: 
         for key, value in request.json.items():
@@ -130,11 +131,11 @@ def patch_car(id):
 #
 #   Activate Car
 #
-@app.patch('/cars/<int:id>/activate')
+@app.patch('/cars/<int:carId>/activate')
 # @token_perms_required(role=['Admin','Supervisor'])
-def patch_act_car(id):
+def patch_act_car(carId):
 
-    car = Car.query.filter_by(id=id).first()
+    car = Car.query.filter_by(id=carId).first()
 
     if car: 
 
@@ -150,11 +151,11 @@ def patch_act_car(id):
 #
 #   Activate Car
 #
-@app.patch('/cars/<int:id>/deactivate')
+@app.patch('/cars/<int:carId>/deactivate')
 # @token_perms_required(role=['Admin','Supervisor'])
-def patch_deact_car(id):
+def patch_deact_car(carId):
 
-    car = Car.query.filter_by(id=id).first()
+    car = Car.query.filter_by(id=carId).first()
 
     if car: 
         
