@@ -17,7 +17,7 @@ class User(db.Model):
     name = db.Column('name', db.String(64), nullable=True, unique=False)
     role = db.Column('role', db.String(64), nullable=False, unique=False, server_default='User')
     passwordResetToken = db.Column('passwordResetToken', db.String(128), nullable=True,  unique=False)
-    imageURL = db.Column('image', db.String(128), nullable=True, unique=False)
+    imageURL = db.Column('imageURL', db.String(128), nullable=True, unique=False)
     status = db.Column('status', db.String(64), nullable=False, unique=False, server_default='Pending')
     createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())

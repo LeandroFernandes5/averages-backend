@@ -5,7 +5,7 @@ class Config(object):
     # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or print('No DB URI')
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://averages:averages@localhost:6543/flask'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    TOKEN_TIME_MIN = 60
+    TOKEN_TIME_MIN = 10080
     ALGORITHM='HS256'
 
 
