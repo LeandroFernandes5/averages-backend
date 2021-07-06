@@ -7,6 +7,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TOKEN_TIME_MIN = 10080
     ALGORITHM='HS256'
+    JSON_AS_ASCII = False
 
 
 class ProductionConfig(Config):

@@ -19,7 +19,7 @@ def get_gasstations():
         ).dumps(gas)
     
    
-    return jsonify(result), 200
+    return result, 200
 
 
 #
@@ -41,7 +41,7 @@ def post_gasstations():
     db.session.add(gas)
     db.session.commit()
 
-    return jsonify({ 'message' : 'Gas Station created' }), 201
+    return { 'message' : 'Gas Station created' }, 201
 
 
 #
@@ -57,9 +57,9 @@ def del_gasstation(gasStationId):
         db.session.delete(gas)
         db.session.commit()
 
-        return jsonify({ 'message' : 'Gas Station deleted' }), 200
+        return { 'message' : 'Gas Station deleted' }, 200
 
-    return jsonify({ 'message' : 'Gas Station not found' }), 404
+    return { 'message' : 'Gas Station not found' }, 404
 
 
 #
@@ -77,6 +77,6 @@ def patch_gasstation(gasStationId):
 
         db.session.commit()
 
-        return jsonify({ 'message' : 'Gas Station updated' }), 200
+        return { 'message' : 'Gas Station updated' }, 200
 
-    return jsonify({ 'message' : 'Gas Station not found' }), 404
+    return { 'message' : 'Gas Station not found' }, 404

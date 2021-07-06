@@ -1,4 +1,4 @@
-from flask import app, request, jsonify
+from flask import app, request
 from app import app, db
 from app.models import User
 from app.users.schema import UserSchema
@@ -28,8 +28,8 @@ def login():
             
             token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm=app.config['ALGORITHM'])
             
-            return jsonify({'accessToken': token}), 201
+            return {'accessToken': token}, 201
         else:
-            return jsonify({'message' : 'Not authorized'}), 401
+            return {'message' : 'Not authorized'}, 401
 
-    return jsonify({ 'message' : 'User or password incorrect' }), 400
+    return { 'message' : 'User or password incorrect' }, 400

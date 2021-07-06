@@ -19,6 +19,6 @@ def get_caraverages():
         ).dumps(avg)
     
    
-    return jsonify(result), 200
+    return result, 200
 
     

@@ -15,7 +15,7 @@ def get_cars_simplified():
     
     result = CarSchema(many=True, only=('id', 'plate')).dumps(cars)
    
-    return jsonify(result), 200
+    return result, 200
 
 
 #    
@@ -35,7 +35,7 @@ def get_cars():
         ).dumps(cars)
     
    
-    return jsonify(result), 200
+    return result, 200
 
 
 #
@@ -66,7 +66,7 @@ def post_car():
     db.session.add(car)
     db.session.commit()
 
-    return jsonify({ 'message' : 'Car created' }), 201
+    return { 'message' : 'Car created' }, 201
 
 
 #
@@ -84,9 +84,9 @@ def get_car(carId):
             'obraNo', 'inspectionDate', 'tccExpireDate', 'licenseExpireDate', 'tachographDate', 'status')
         ).dumps(car)
         
-        return jsonify(result), 200
+        return result, 200
 
-    return jsonify({ 'message' : 'Car not found' }), 404
+    return { 'message' : 'Car not found' }, 404
 
 
 #
@@ -102,9 +102,9 @@ def del_car(carId):
         db.session.delete(car)
         db.session.commit()
 
-        return jsonify({ 'message' : 'Car deleted' }), 200
+        return { 'message' : 'Car deleted' }, 200
 
-    return jsonify({ 'message' : 'Car not found' }), 404
+    return { 'message' : 'Car not found' }, 404
 
 
 #
@@ -122,9 +122,9 @@ def patch_car(carId):
 
         db.session.commit()
 
-        return jsonify({ 'message' : 'Car patched' }), 200
+        return { 'message' : 'Car patched' }, 200
 
-    return jsonify({ 'message' : 'Car not found' }), 404 
+    return { 'message' : 'Car not found' }, 404 
 
 
 #
@@ -142,9 +142,9 @@ def patch_act_car(carId):
 
         db.session.commit()
 
-        return jsonify({ 'message' : 'Car Activated' }), 200
+        return { 'message' : 'Car Activated' }, 200
 
-    return jsonify({ 'message' : 'Car not found' }), 404 
+    return { 'message' : 'Car not found' }, 404 
 
 
 #
@@ -162,6 +162,6 @@ def patch_deact_car(carId):
 
         db.session.commit()
 
-        return jsonify({ 'message' : 'Car Inactivated' }), 200
+        return { 'message' : 'Car Inactivated' }, 200
 
-    return jsonify({ 'message' : 'Car not found' }), 404 
+    return { 'message' : 'Car not found' }, 404 

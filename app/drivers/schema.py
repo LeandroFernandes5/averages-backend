@@ -1,3 +1,4 @@
+from sqlalchemy.orm import load_only
 from app import db, ma
 from marshmallow import Schema, fields
 from app.users.schema import UserSchema
@@ -15,6 +16,7 @@ class DriverSchema(Schema):
     camExpireDate = fields.DateTime() 
     createdDate = fields.DateTime(load_only=True)
     modifiedDate = fields.DateTime(load_only=True)
+    userId = fields.Int(load_only=True)
     user = fields.Nested(UserSchema(only=("id","email","name","status","role",)))
 
 

@@ -17,7 +17,7 @@ def users():
         only=('id', 'email', 'name', )
         ).dumps(users)
     
-    return jsonify(result), 200
+    return result, 200
 
 
 #    
@@ -40,7 +40,7 @@ def register():
     db.session.add(user)
     db.session.commit()
     
-    return jsonify({ 'message' : 'User registered' }), 201
+    return { 'message' : 'User registered' }, 201
 
 
 #
@@ -57,9 +57,9 @@ def get_user(userId):
             only=('id', 'email', 'imageURL', 'name', 'status',)
         ).dumps(user)
         
-        return jsonify(result), 200
+        return result, 200
 
-    return jsonify({ 'message' : 'User not found' }), 404
+    return { 'message' : 'User not found' }, 404
 
 
 #
@@ -77,9 +77,9 @@ def patch_user(userId):
 
         db.session.commit()
 
-        return jsonify({ 'message' : 'User updated' }), 200
+        return { 'message' : 'User updated' }, 200
 
-    return jsonify({ 'message' : 'User not found' }), 404 
+    return { 'message' : 'User not found' }, 404 
 
 
 
@@ -101,13 +101,13 @@ def change_password(userId):
             db.session.add(user)
             db.session.commit()
 
-            return jsonify({'message' : 'Password changed'}), 200
+            return {'message' : 'Password changed'}, 200
             
         else: 
 
-            return jsonify({'message' : 'Password dont match'}), 404 
+            return {'message' : 'Password dont match'}, 404 
 
-    return jsonify({ 'message' : 'User not found' }), 404       
+    return { 'message' : 'User not found' }, 404       
 
 
 #
@@ -124,9 +124,9 @@ def patch_user_act(userId):
 
         db.session.commit()
 
-        return jsonify({ 'message' : 'User updated' }), 200
+        return { 'message' : 'User updated' }, 200
 
-    return jsonify({ 'message' : 'User not found' }), 404
+    return { 'message' : 'User not found' }, 404
 
 
 #
@@ -143,9 +143,9 @@ def patch_user_deact(userId):
 
         db.session.commit()
 
-        return jsonify({ 'message' : 'User updated' }), 200
+        return { 'message' : 'User updated' }, 200
 
-    return jsonify({ 'message' : 'User not found' }), 404
+    return { 'message' : 'User not found' }, 404
 
 
 
@@ -165,8 +165,8 @@ def patch_user_roles(userId):
 
         db.session.commit()
 
-        return jsonify({ 'message' : 'Role updated' }), 200
+        return { 'message' : 'Role updated' }, 200
 
-    return jsonify({ 'message' : 'User not found' }), 404
+    return { 'message' : 'User not found' }, 404
 
 

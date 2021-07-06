@@ -22,9 +22,9 @@ def driver_simplified():
             only=('id', 'name', 'user')
         ).dumps(driver)
 
-        return jsonify(result), 200
+        return result, 200
 
-    return jsonify({ 'message' : 'Driver not found' }), 404
+    return { 'message' : 'Driver not found' }, 404
 
 
 #    
@@ -43,7 +43,7 @@ def get_drivers():
         ).dumps(drivers)
     
    
-    return jsonify(result), 200
+    return result, 200
 
 
 #
@@ -58,7 +58,6 @@ def post_driver():
     result = schema.load(request.json)
 
     driver = Driver(
-        id = result.get('id'),
         name = result.get('name'),
         imageURL = result.get('imageURL'),
         birthDate = result.get('birthDate'),
@@ -74,7 +73,7 @@ def post_driver():
     db.session.add(driver)
     db.session.commit()
 
-    return jsonify({ 'message' : 'Driver created' }), 201
+    return { 'message' : 'Driver created' }, 201
 
 
     
@@ -93,9 +92,9 @@ def get_driver(driverId):
             'birthDate', 'camExpireDate', 'tccExpireDate', 'ccExpireDate',)
         ).dumps(driver)
 
-        return jsonify(result), 200
+        return result, 200
 
-    return jsonify({ 'message' : 'Driver not found' }), 404
+    return { 'message' : 'Driver not found' }, 404
 
 
 
@@ -114,9 +113,9 @@ def patch_driver(driverId):
 
         db.session.commit()
 
-        return jsonify({ 'message' : 'Driver updated' }), 200
+        return { 'message' : 'Driver updated' }, 200
     
-    return jsonify({ 'message' : 'Driver not found' }), 404 
+    return { 'message' : 'Driver not found' }, 404 
 
 
 
@@ -135,8 +134,8 @@ def get_driver_supplies(driverId):
             'birthDate', 'camExpireDate', 'tccExpireDate', 'ccExpireDate', 'user',)
         ).dumps(driver)
         
-        return jsonify(result), 200
+        return result, 200
 
-    return jsonify({ 'message' : 'Driver not found' }), 404
+    return { 'message' : 'Driver not found' }, 404
 
 

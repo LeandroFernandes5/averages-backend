@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, make_response
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -20,10 +20,16 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 ma = Marshmallow(app)
 
+#
+#   Import utils
+#
+from app.util import *
+
+
 # 
 #    Import Routes
 #
-from app import models
+from app.models import *
 from app.carAverages.routes import *
 from app.cars.routes import *
 from app.drivers.routes import *
