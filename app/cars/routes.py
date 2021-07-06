@@ -50,7 +50,6 @@ def post_car():
     result = schema.load(request.json)
 
     car = Car(
-        id = result.get('id'),
         plate = result.get('plate'),
         brand = result.get('brand'),
         model = result.get('model'),
