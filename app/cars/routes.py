@@ -1,6 +1,7 @@
-from flask import app, request, jsonify
+from app.supplies.schema import SupplySchema
+from flask import app, request
 from app import app, db
-from app.models import Car
+from app.models import Car, Supply
 from app.cars.schema import CarSchema
 from app.decorators import token_perms_required
 
@@ -90,24 +91,6 @@ def get_car(carId):
 
 
 #
-#   Delete a Car
-#
-@app.delete('/cars/<int:carId>')
-# @token_perms_required(role=['Admin','Supervisor'])
-def del_car(carId):
-    
-    car = Car.query.filter_by(id=carId).first()
-
-    if car:
-        db.session.delete(car)
-        db.session.commit()
-
-        return { 'message' : 'Car deleted' }, 200
-
-    return { 'message' : 'Car not found' }, 404
-
-
-#
 #   Update a car
 #
 @app.patch('/cars/<int:carId>')
@@ -148,7 +131,7 @@ def patch_act_car(carId):
 
 
 #
-#   Activate Car
+#   Deactivate Car
 #
 @app.patch('/cars/<int:carId>/deactivate')
 # @token_perms_required(role=['Admin','Supervisor'])
@@ -165,3 +148,41 @@ def patch_deact_car(carId):
         return { 'message' : 'Car Inactivated' }, 200
 
     return { 'message' : 'Car not found' }, 404 
+
+
+#   TODO TBF
+#   Get a Car Averages
+#
+@app.get('/cars/<int:carId>/averages')
+# @token_perms_required(role=['Admin','Supervisor'])
+def get_car_averages(carId):
+    
+    car = Car.query.filter_by(id=carId).first()
+
+    if car:
+        result =  CarSchema(
+            only=('id', 'plate', 'brand', 'model', 'status')
+        ).dumps(car)
+        
+        return result, 200
+
+    return { 'message' : 'Car not found' }, 404
+
+
+#   
+#   Get a Car Supplies 
+#
+@app.get('/cars/<int:carId>/supplies')
+# @token_perms_required(role=['Admin','Supervisor'])
+def get_car_supplies(carId):
+    
+    car = Supply.query.filter_by(carId=carId).all()
+    
+    if car:
+        result =  SupplySchema(many=True,
+            only=('id', 'gasStation', 'totalKm', 'liters', 'fullTank', 'cost', 'supplyDate')
+        ).dumps(car)
+        
+        return result, 200
+
+    return { 'message' : 'Car not found' }, 404
