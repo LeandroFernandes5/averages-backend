@@ -1,8 +1,7 @@
 from sqlalchemy.orm import relationship
-from app import db, ma
+from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import func
-from marshmallow import Schema, fields
 
 #
 #   Database representation for ORM use
