@@ -28,8 +28,13 @@ def login():
             
             token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm=app.config['ALGORITHM'])
             
+            app.logger.info('User %s  with id: %s logged in successfully ', user.name, user.id)
+
             return {'accessToken': token}, 201
         else:
+            
+            app.logger.info('Denied access to email: %s', request.json.get('email'))
+            
             return {'message' : 'Not authorized'}, 401
 
     return { 'message' : 'User or password incorrect' }, 400

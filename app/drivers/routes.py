@@ -73,6 +73,8 @@ def post_driver():
     db.session.add(driver)
     db.session.commit()
 
+    app.logger.info('Created new Driver :  %s', request.json)
+
     return { 'message' : 'Driver created' }, 201
 
 
@@ -112,6 +114,8 @@ def patch_driver(driverId):
             setattr(driver, key, value)
 
         db.session.commit()
+
+        app.logger.info('Updated Driver id: %s with ', driverId, request.json)
 
         return { 'message' : 'Driver updated' }, 200
     

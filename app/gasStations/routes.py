@@ -41,6 +41,8 @@ def post_gasstations():
     db.session.add(gas)
     db.session.commit()
 
+    app.logger.info('Created new Gas Station: %s', request.json)
+
     return { 'message' : 'Gas Station created' }, 201
 
 
@@ -56,6 +58,8 @@ def del_gasstation(gasStationId):
     if gas:
         db.session.delete(gas)
         db.session.commit()
+
+        app.logger.info('Deleted Gas Station id: %s', gasStationId)
 
         return { 'message' : 'Gas Station deleted' }, 200
 
@@ -76,6 +80,8 @@ def patch_gasstation(gasStationId):
             setattr(gas, key, value)
 
         db.session.commit()
+
+        app.logger.info('Updated Gas Station id: %s with %s', gasStationId, request.json)
 
         return { 'message' : 'Gas Station updated' }, 200
 

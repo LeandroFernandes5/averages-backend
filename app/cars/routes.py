@@ -67,6 +67,8 @@ def post_car():
     db.session.add(car)
     db.session.commit()
 
+    app.logger.info('Created new Car: %s', request.json)
+
     return { 'message' : 'Car created' }, 201
 
 
@@ -105,6 +107,8 @@ def patch_car(carId):
 
         db.session.commit()
 
+        app.logger.info('Updated Car id: %s with %s', carId, request.json)
+
         return { 'message' : 'Car patched' }, 200
 
     return { 'message' : 'Car not found' }, 404 
@@ -125,6 +129,8 @@ def patch_act_car(carId):
 
         db.session.commit()
 
+        app.logger.info('Activated Car with id:  %s', carId)
+
         return { 'message' : 'Car Activated' }, 200
 
     return { 'message' : 'Car not found' }, 404 
@@ -144,6 +150,8 @@ def patch_deact_car(carId):
         setattr(car, 'status', 'Inactive')
 
         db.session.commit()
+
+        app.logger.info('Deactivated Car with id:  %s', carId)
 
         return { 'message' : 'Car Inactivated' }, 200
 

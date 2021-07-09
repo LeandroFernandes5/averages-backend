@@ -54,6 +54,8 @@ def post_supplies():
     db.session.add(supply)
     db.session.commit()
 
+    app.logger.info('Created new Supply %s ', request.json)
+
     return { 'message' : 'Supply created' }, 201
 
 
@@ -93,7 +95,8 @@ def patch_supplies(supplyId):
         db.session.commit()
 
         ## TODO Add average calculation
-
+        app.logger.info('Updated Supply id: %s with %s', supplyId, request.json)
+        
         return { 'message' : 'Supply updated' }, 200
     
     return { 'message' : 'Supply not found' }, 404 
@@ -104,15 +107,17 @@ def patch_supplies(supplyId):
 #
 @app.delete('/supplies/<int:supplyId>')
 # @token_perms_required(role=['Admin','Supervisor'])
-def del_supplies(id):
+def del_supplies(supplyId):
     
-    supply = Supply.query.filter_by(id=id).first()
+    supply = Supply.query.filter_by(id=supplyId).first()
 
     if supply:
         db.session.delete(supply)
         db.session.commit()
 
         ### TODO Add average calculation
+
+        app.logger.info('Deleted Supply with id:  %s', supplyId)
 
         return { 'message' : 'Supply deleted' }, 200
 

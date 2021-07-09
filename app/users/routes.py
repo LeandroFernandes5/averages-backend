@@ -39,6 +39,8 @@ def register():
 
     db.session.add(user)
     db.session.commit()
+
+    app.logger.info('Created new User for email: %s', email)
     
     return { 'message' : 'User registered' }, 201
 
@@ -77,6 +79,8 @@ def patch_user(userId):
 
         db.session.commit()
 
+        app.logger.info('Updated User with id:  %s with %s', userId, request.json)
+
         return { 'message' : 'User updated' }, 200
 
     return { 'message' : 'User not found' }, 404 
@@ -101,6 +105,8 @@ def change_password(userId):
             db.session.add(user)
             db.session.commit()
 
+            app.logger.info('Updated User password - id: %s', userId)
+
             return {'message' : 'Password changed'}, 200
             
         else: 
@@ -124,6 +130,8 @@ def patch_user_act(userId):
 
         db.session.commit()
 
+        app.logger.info('Activated User - id: %s', userId)
+
         return { 'message' : 'User updated' }, 200
 
     return { 'message' : 'User not found' }, 404
@@ -142,6 +150,8 @@ def patch_user_deact(userId):
         setattr(user, 'status', 'Inactive')
 
         db.session.commit()
+
+        app.logger.info('Inactivated User - id: %s', userId)
 
         return { 'message' : 'User updated' }, 200
 
@@ -164,6 +174,8 @@ def patch_user_roles(userId):
         setattr(user, 'role', role)
 
         db.session.commit()
+
+        app.logger.info('Role updated User - id: %s', userId)
 
         return { 'message' : 'Role updated' }, 200
 
