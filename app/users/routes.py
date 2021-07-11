@@ -7,7 +7,7 @@ from app.decorators import token_perms_required
 #    
 #   Get all users
 # 
-@app.get('/users')
+@app.get('/api/users')
 # @token_perms_required(role=['Admin','Supervisor'])
 def users():
   
@@ -23,19 +23,19 @@ def users():
 #    
 #   Register a new user
 # 
-@app.post('/users')
+@app.post('/api/users')
 def register():
 
-    email = request.json.get('email')
+    email = request.json.get('/apiemail')
     
     if User.query.filter_by(email=email).first():
          return jsonify({'message': 'Email already exists' }), 409
     
     user = User(
-        email = request.json.get('email'),
-        name = request.json.get('name')
+        email = request.json.get('/apiemail'),
+        name = request.json.get('/apiname')
     )
-    user.set_password(request.json.get('password'))
+    user.set_password(request.json.get('/apipassword'))
 
     db.session.add(user)
     db.session.commit()
@@ -48,7 +48,7 @@ def register():
 #
 #   Get a User
 #
-@app.get('/users/<int:userId>')
+@app.get('/api/users/<int:userId>')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_user(userId):
     
@@ -67,7 +67,7 @@ def get_user(userId):
 #
 #   Update a User
 #
-@app.patch('/users/<int:userId>')
+@app.patch('/api/users/<int:userId>')
 # @token_perms_required(role=['Admin','Supervisor'])
 def patch_user(userId):
 
@@ -90,7 +90,7 @@ def patch_user(userId):
 #
 #   Change a password
 #
-@app.put('/users/<int:userId>')
+@app.put('/api/users/<int:userId>')
 # @token_perms_required(role=['Admin','Supervisor'])
 def change_password(userId):
 
@@ -98,9 +98,9 @@ def change_password(userId):
 
     if user:
 
-        if user.check_password(request.json.get('oldPassword')):
+        if user.check_password(request.json.get('/apioldPassword')):
 
-            user.set_password(request.json.get('password'))
+            user.set_password(request.json.get('/apipassword'))
 
             db.session.add(user)
             db.session.commit()
@@ -119,7 +119,7 @@ def change_password(userId):
 #
 #   Activate User
 #
-@app.patch('/users/<int:userId>/activate')
+@app.patch('/api/users/<int:userId>/activate')
 # @token_perms_required(role=['Admin','Supervisor'])
 def patch_user_act(userId):
     
@@ -140,7 +140,7 @@ def patch_user_act(userId):
 #
 #   Update User
 #
-@app.patch('/users/<int:userId>/deactivate')
+@app.patch('/api/users/<int:userId>/deactivate')
 # @token_perms_required(role=['Admin','Supervisor'])
 def patch_user_deact(userId):
     
@@ -162,13 +162,13 @@ def patch_user_deact(userId):
 #
 #   Update Role
 #
-@app.patch('/users/<int:userId>/roles')
+@app.patch('/api/users/<int:userId>/roles')
 # @token_perms_required(role=['Admin','Supervisor'])
 def patch_user_roles(userId):
     
     user = User.query.filter_by(id=userId).first()
 
-    role = request.json.get('role')
+    role = request.json.get('/apirole')
 
     if user:
         setattr(user, 'role', role)

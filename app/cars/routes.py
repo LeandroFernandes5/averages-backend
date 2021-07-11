@@ -8,7 +8,7 @@ from app.decorators import token_perms_required
 #    
 #   Get Cars simplified
 # 
-@app.get('/cars-simplified')
+@app.get('/api/cars-simplified')
 # @token_perms_required(role=['Admin','Supervisor', 'Driver'])
 def get_cars_simplified():
 
@@ -22,7 +22,7 @@ def get_cars_simplified():
 #    
 #   Get Cars
 # 
-@app.get('/cars')
+@app.get('/api/cars')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_cars():
 
@@ -42,7 +42,7 @@ def get_cars():
 #
 #   Post a car
 #
-@app.post('/cars')
+@app.post('/api/cars')
 # @token_perms_required(role=['Admin','Supervisor'])
 def post_car():
 
@@ -51,17 +51,17 @@ def post_car():
     result = schema.load(request.json)
 
     car = Car(
-        plate = result.get('plate'),
-        brand = result.get('brand'),
-        model = result.get('model'),
-        registerDate = result.get('registerDate'),
-        status = result.get('status'),
-        chassisNo = result.get('chassisNo'),
-        obraNo = result.get('obraNo'),
-        inspectionDate = result.get('inspectionDate'),
-        tccExpireDate = result.get('tccExpireDate'),
-        licenseExpireDate = result.get('licenseExpireDate'),
-        tachographDate = result.get('tachographDate')
+        plate = result.get('/apiplate'),
+        brand = result.get('/apibrand'),
+        model = result.get('/apimodel'),
+        registerDate = result.get('/apiregisterDate'),
+        status = result.get('/apistatus'),
+        chassisNo = result.get('/apichassisNo'),
+        obraNo = result.get('/apiobraNo'),
+        inspectionDate = result.get('/apiinspectionDate'),
+        tccExpireDate = result.get('/apitccExpireDate'),
+        licenseExpireDate = result.get('/apilicenseExpireDate'),
+        tachographDate = result.get('/apitachographDate')
     )
 
     db.session.add(car)
@@ -75,7 +75,7 @@ def post_car():
 #
 #   Get a Car
 #
-@app.get('/cars/<int:carId>')
+@app.get('/api/cars/<int:carId>')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_car(carId):
     
@@ -95,7 +95,7 @@ def get_car(carId):
 #
 #   Update a car
 #
-@app.patch('/cars/<int:carId>')
+@app.patch('/api/cars/<int:carId>')
 # @token_perms_required(role=['Admin','Supervisor'])
 def patch_car(carId):
 
@@ -117,7 +117,7 @@ def patch_car(carId):
 #
 #   Activate Car
 #
-@app.patch('/cars/<int:carId>/activate')
+@app.patch('/api/cars/<int:carId>/activate')
 # @token_perms_required(role=['Admin','Supervisor'])
 def patch_act_car(carId):
 
@@ -139,7 +139,7 @@ def patch_act_car(carId):
 #
 #   Deactivate Car
 #
-@app.patch('/cars/<int:carId>/deactivate')
+@app.patch('/api/cars/<int:carId>/deactivate')
 # @token_perms_required(role=['Admin','Supervisor'])
 def patch_deact_car(carId):
 
@@ -161,7 +161,7 @@ def patch_deact_car(carId):
 #   TODO TBF
 #   Get a Car Averages
 #
-@app.get('/cars/<int:carId>/averages')
+@app.get('/api/cars/<int:carId>/averages')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_car_averages(carId):
     
@@ -180,7 +180,7 @@ def get_car_averages(carId):
 #   
 #   Get a Car Supplies 
 #
-@app.get('/cars/<int:carId>/supplies')
+@app.get('/api/cars/<int:carId>/supplies')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_car_supplies(carId):
     

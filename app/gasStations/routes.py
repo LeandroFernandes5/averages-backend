@@ -7,7 +7,7 @@ from app.decorators import token_perms_required
 #    
 #   Get all Gas Stations
 # 
-@app.get('/gasstations')
+@app.get('/api/gasstations')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_gasstations():
 
@@ -25,7 +25,7 @@ def get_gasstations():
 #
 #   Post a new Gas Station
 #
-@app.post('/gasstations')
+@app.post('/api/gasstations')
 # @token_perms_required(role=['Admin','Supervisor'])
 def post_gasstations():
 
@@ -34,8 +34,8 @@ def post_gasstations():
     result = schema.load(request.json)
 
     gas = GasStation(
-        id = result.get('id'),
-        name = result.get('name')
+        id = result.get('/apiid'),
+        name = result.get('/apiname')
     )
 
     db.session.add(gas)
@@ -69,7 +69,7 @@ def del_gasstation(gasStationId):
 #
 #   Update Gas Station
 #
-@app.patch('/gasstations/<int:gasStationId>')
+@app.patch('/api/gasstations/<int:gasStationId>')
 # @token_perms_required(role=['Admin','Supervisor'])
 def patch_gasstation(gasStationId):
     

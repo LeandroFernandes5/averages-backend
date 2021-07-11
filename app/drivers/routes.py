@@ -8,7 +8,7 @@ from app.decorators import token_perms_required
 #
 #   Get Driver Simplified
 #
-@app.get('/drivers-simplified')
+@app.get('/api/drivers-simplified')
 # @token_perms_required(role=['Admin','Supervisor'])
 def driver_simplified():
     
@@ -30,7 +30,7 @@ def driver_simplified():
 #    
 #   Get all Drivers
 # 
-@app.get('/drivers')
+@app.get('/api/drivers')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_drivers():
 
@@ -49,7 +49,7 @@ def get_drivers():
 #
 #   Post a new driver
 #
-@app.post('/drivers')
+@app.post('/api/drivers')
 # @token_perms_required(role=['Admin','Supervisor'])
 def post_driver():
 
@@ -58,16 +58,16 @@ def post_driver():
     result = schema.load(request.json)
 
     driver = Driver(
-        name = result.get('name'),
-        imageURL = result.get('imageURL'),
-        birthDate = result.get('birthDate'),
-        ccNumber = result.get('ccNumber'),
-        ccExpireDate = result.get('ccExpireDate'),
-        driverLicenseNumber = result.get('driverLicenseNumber'),
-        driverLicenseExpireDate = result.get('driverLicenseExpireDate'),
-        tccExpireDate = result.get('tccExpireDate'),
-        camExpireDate = result.get('camExpireDate'),
-        userId = result.get('userId')
+        name = result.get('/apiname'),
+        imageURL = result.get('/apiimageURL'),
+        birthDate = result.get('/apibirthDate'),
+        ccNumber = result.get('/apiccNumber'),
+        ccExpireDate = result.get('/apiccExpireDate'),
+        driverLicenseNumber = result.get('/apidriverLicenseNumber'),
+        driverLicenseExpireDate = result.get('/apidriverLicenseExpireDate'),
+        tccExpireDate = result.get('/apitccExpireDate'),
+        camExpireDate = result.get('/apicamExpireDate'),
+        userId = result.get('/apiuserId')
     )
 
     db.session.add(driver)
@@ -82,7 +82,7 @@ def post_driver():
 #
 #   Get Driver
 #
-@app.get('/drivers/<int:driverId>')
+@app.get('/api/drivers/<int:driverId>')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_driver(driverId):
     
@@ -103,7 +103,7 @@ def get_driver(driverId):
 #
 #   Update a driver
 #
-@app.patch('/drivers/<int:driverId>')
+@app.patch('/api/drivers/<int:driverId>')
 # @token_perms_required(role=['Admin','Supervisor'])
 def patch_driver(driverId):
 
@@ -126,7 +126,7 @@ def patch_driver(driverId):
 #
 #   Get a Driver Supplies
 #
-@app.get('/drivers/<int:driverId>/supplies')
+@app.get('/api/drivers/<int:driverId>/supplies')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_driver_supplies(driverId):
     

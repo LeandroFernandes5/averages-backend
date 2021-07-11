@@ -9,7 +9,7 @@ from app.decorators import token_perms_required
 #    
 #   Login
 # 
-@app.post('/me/login')
+@app.post('/api/me/login')
 def login():
     
     

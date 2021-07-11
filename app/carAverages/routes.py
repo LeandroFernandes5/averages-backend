@@ -7,7 +7,7 @@ from app.decorators import token_perms_required
 #    
 #   Get all Supplies
 # 
-@app.get('/caraverages')
+@app.get('/api/caraverages')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_caraverages():
 

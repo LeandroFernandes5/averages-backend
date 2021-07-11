@@ -7,7 +7,7 @@ from app.decorators import token_perms_required
 #    
 #   Get all Supplies
 # 
-@app.get('/supplies')
+@app.get('/api/supplies')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_supplies():
 
@@ -27,7 +27,7 @@ def get_supplies():
 #
 #   Post a new supply
 #
-@app.post('/supplies')
+@app.post('/api/supplies')
 # @token_perms_required(role=['Admin','Supervisor'])
 def post_supplies():
 
@@ -36,14 +36,14 @@ def post_supplies():
     result = schema.load(request.json)
 
     supply = Supply(
-        driverId = result.get('driverId'),
-        carId = result.get('carId'),
-        gasStationId = result.get('gasStationId'),
-        totalKm = result.get('totalKm'),
-        liters = result.get('liters'),
-        fullTank = result.get('fullTank'),
-        supplyDate = result.get('supplyDate'),
-        cost = result.get('cost')
+        driverId = result.get('/apidriverId'),
+        carId = result.get('/apicarId'),
+        gasStationId = result.get('/apigasStationId'),
+        totalKm = result.get('/apitotalKm'),
+        liters = result.get('/apiliters'),
+        fullTank = result.get('/apifullTank'),
+        supplyDate = result.get('/apisupplyDate'),
+        cost = result.get('/apicost')
     )
 
     supply.average = 0
@@ -62,7 +62,7 @@ def post_supplies():
 #
 #   Get Supply
 #
-@app.get('/supplies/<int:supplyId>')
+@app.get('/api/supplies/<int:supplyId>')
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_supply(supplyId):
     
@@ -82,7 +82,7 @@ def get_supply(supplyId):
 #
 #   Update a Supply
 #
-@app.patch('/supplies/<int:supplyId>')
+@app.patch('/api/supplies/<int:supplyId>')
 # @token_perms_required(role=['Admin','Supervisor'])
 def patch_supplies(supplyId):
 
@@ -105,7 +105,7 @@ def patch_supplies(supplyId):
 #
 #   Delete Supply
 #
-@app.delete('/supplies/<int:supplyId>')
+@app.delete('/api/supplies/<int:supplyId>')
 # @token_perms_required(role=['Admin','Supervisor'])
 def del_supplies(supplyId):
     
