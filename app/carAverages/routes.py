@@ -18,7 +18,6 @@ def get_caraverages():
         only=('id', 'liters', 'km', 'year', 'month', 'car')
         ).dumps(avg)
     
-   
     return result, 200
 
     

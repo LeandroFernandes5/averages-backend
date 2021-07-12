@@ -1,9 +1,6 @@
 from flask import app, request
-from flask.json import jsonify
 from app import app, db
-from app.models import User
 import jwt 
-from functools import wraps
 
 
 def token_perms_required(role):
