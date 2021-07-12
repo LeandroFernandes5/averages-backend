@@ -58,16 +58,16 @@ def post_driver():
     result = schema.load(request.json)
 
     driver = Driver(
-        name = result.get('/apiname'),
-        imageURL = result.get('/apiimageURL'),
-        birthDate = result.get('/apibirthDate'),
-        ccNumber = result.get('/apiccNumber'),
-        ccExpireDate = result.get('/apiccExpireDate'),
-        driverLicenseNumber = result.get('/apidriverLicenseNumber'),
-        driverLicenseExpireDate = result.get('/apidriverLicenseExpireDate'),
-        tccExpireDate = result.get('/apitccExpireDate'),
-        camExpireDate = result.get('/apicamExpireDate'),
-        userId = result.get('/apiuserId')
+        name = result.get('name'),
+        imageURL = result.get('imageURL'),
+        birthDate = result.get('birthDate'),
+        ccNumber = result.get('ccNumber'),
+        ccExpireDate = result.get('ccExpireDate'),
+        driverLicenseNumber = result.get('driverLicenseNumber'),
+        driverLicenseExpireDate = result.get('driverLicenseExpireDate'),
+        tccExpireDate = result.get('tccExpireDate'),
+        camExpireDate = result.get('camExpireDate'),
+        userId = result.get('userId')
     )
 
     db.session.add(driver)

@@ -26,16 +26,16 @@ def users():
 @app.post('/api/users')
 def register():
 
-    email = request.json.get('/apiemail')
+    email = request.json.get('email')
     
     if User.query.filter_by(email=email).first():
          return jsonify({'message': 'Email already exists' }), 409
     
     user = User(
-        email = request.json.get('/apiemail'),
-        name = request.json.get('/apiname')
+        email = request.json.get('email'),
+        name = request.json.get('name')
     )
-    user.set_password(request.json.get('/apipassword'))
+    user.set_password(request.json.get('password'))
 
     db.session.add(user)
     db.session.commit()
@@ -98,9 +98,9 @@ def change_password(userId):
 
     if user:
 
-        if user.check_password(request.json.get('/apioldPassword')):
+        if user.check_password(request.json.get('oldPassword')):
 
-            user.set_password(request.json.get('/apipassword'))
+            user.set_password(request.json.get('password'))
 
             db.session.add(user)
             db.session.commit()
@@ -168,7 +168,7 @@ def patch_user_roles(userId):
     
     user = User.query.filter_by(id=userId).first()
 
-    role = request.json.get('/apirole')
+    role = request.json.get('role')
 
     if user:
         setattr(user, 'role', role)

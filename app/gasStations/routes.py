@@ -34,8 +34,8 @@ def post_gasstations():
     result = schema.load(request.json)
 
     gas = GasStation(
-        id = result.get('/apiid'),
-        name = result.get('/apiname')
+        id = result.get('id'),
+        name = result.get('name')
     )
 
     db.session.add(gas)

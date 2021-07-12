@@ -51,17 +51,17 @@ def post_car():
     result = schema.load(request.json)
 
     car = Car(
-        plate = result.get('/apiplate'),
-        brand = result.get('/apibrand'),
-        model = result.get('/apimodel'),
-        registerDate = result.get('/apiregisterDate'),
-        status = result.get('/apistatus'),
-        chassisNo = result.get('/apichassisNo'),
-        obraNo = result.get('/apiobraNo'),
-        inspectionDate = result.get('/apiinspectionDate'),
-        tccExpireDate = result.get('/apitccExpireDate'),
-        licenseExpireDate = result.get('/apilicenseExpireDate'),
-        tachographDate = result.get('/apitachographDate')
+        plate = result.get('plate'),
+        brand = result.get('brand'),
+        model = result.get('model'),
+        registerDate = result.get('registerDate'),
+        status = result.get('status'),
+        chassisNo = result.get('chassisNo'),
+        obraNo = result.get('obraNo'),
+        inspectionDate = result.get('inspectionDate'),
+        tccExpireDate = result.get('tccExpireDate'),
+        licenseExpireDate = result.get('licenseExpireDate'),
+        tachographDate = result.get('tachographDate')
     )
 
     db.session.add(car)

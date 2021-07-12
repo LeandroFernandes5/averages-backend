@@ -36,14 +36,14 @@ def post_supplies():
     result = schema.load(request.json)
 
     supply = Supply(
-        driverId = result.get('/apidriverId'),
-        carId = result.get('/apicarId'),
-        gasStationId = result.get('/apigasStationId'),
-        totalKm = result.get('/apitotalKm'),
-        liters = result.get('/apiliters'),
-        fullTank = result.get('/apifullTank'),
-        supplyDate = result.get('/apisupplyDate'),
-        cost = result.get('/apicost')
+        driverId = result.get('driverId'),
+        carId = result.get('carId'),
+        gasStationId = result.get('gasStationId'),
+        totalKm = result.get('totalKm'),
+        liters = result.get('liters'),
+        fullTank = result.get('fullTank'),
+        supplyDate = result.get('supplyDate'),
+        cost = result.get('cost')
     )
 
     supply.average = 0
