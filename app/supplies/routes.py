@@ -3,6 +3,7 @@ from app import app, db
 from app.models import Supply
 from app.supplies.schema import SupplySchema
 from app.decorators import token_perms_required
+from app.businessLogic import *
 
 #    
 #   Get all Supplies
@@ -46,10 +47,7 @@ def post_supplies():
         cost = result.get('cost')
     )
 
-    supply.average = 0
-    # 
-    # TODO: Add proper average calculation 
-    #  
+    supply.average = averageCalculation(result) 
 
     db.session.add(supply)
     db.session.commit()
