@@ -54,6 +54,8 @@ def post_supplies():
 
     app.logger.info('Created new Supply %s ', request.json)
 
+    averageMonthlyCalculation(result)
+
     return { 'message' : 'Supply created' }, 201
 
 
