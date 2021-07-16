@@ -93,6 +93,7 @@ class CarAverage(db.Model):
     km = db.Column('km', db.Integer, nullable=False, unique=False)
     year = db.Column('year', db.Integer, nullable=False, unique=False)
     month = db.Column('month', db.Integer, nullable=False, unique=False)
+    average = db.Column('average', db.Float(precision=10, decimal_return_scale=2), nullable=False, unique=False) 
     createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
     carId = db.Column('carId', db.Integer, db.ForeignKey('cars.id'))
