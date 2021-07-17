@@ -1,8 +1,9 @@
 from app.supplies.schema import SupplySchema
 from flask import app, request
 from app import app, db
-from app.models import Car, Supply
+from app.models import Car, Supply, CarAverage
 from app.cars.schema import CarSchema
+from app.carAverages.schema import CarAveragesSchema
 from app.decorators import token_perms_required
 
 #    
@@ -166,11 +167,13 @@ def patch_deact_car(carId):
 def get_car_averages(carId):
     
     car = Car.query.filter_by(id=carId).first()
+    averages = CarAverage.query.filter_by(carId=carId).all()
 
-    if car:
-        result =  CarSchema(
-            only=('id', 'plate', 'brand', 'model', 'status')
-        ).dumps(car)
+    if car and averages:
+        result =  CarAveragesSchema(
+            many=True,
+            only=('id', 'liters', 'km', 'year', 'month','average', 'car','carId')
+        ).dumps(averages)
         
         return result, 200
 
@@ -184,12 +187,13 @@ def get_car_averages(carId):
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_car_supplies(carId):
     
-    car = Supply.query.filter_by(carId=carId).all()
+    sups = Supply.query.filter_by(carId=carId).all()
     
-    if car:
-        result =  SupplySchema(many=True,
+    if sups:
+        result =  SupplySchema(
+            many=True,
             only=('id', 'gasStation', 'totalKm', 'liters', 'fullTank', 'cost', 'supplyDate')
-        ).dumps(car)
+        ).dumps(sups)
         
         return result, 200
 
