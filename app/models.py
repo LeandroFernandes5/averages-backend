@@ -1,4 +1,4 @@
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import backref, relationship
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import func
@@ -97,7 +97,6 @@ class CarAverage(db.Model):
     createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
     carId = db.Column('carId', db.Integer, db.ForeignKey('cars.id'))
-    car = relationship("Car")
 
     def __repr__(self):
         return '<CarAverage {}>'.format(self.id)

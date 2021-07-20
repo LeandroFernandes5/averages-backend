@@ -166,14 +166,23 @@ def patch_deact_car(carId):
 # @token_perms_required(role=['Admin','Supervisor'])
 def get_car_averages(carId):
     
-    car = Car.query.filter_by(id=carId).first()
-    averages = CarAverage.query.filter_by(carId=carId).all()
+    has_car = Car.query.filter_by(id=carId).first()
+    has_averages = CarAverage.query.filter_by(carId=carId).order_by(CarAverage.id.desc()).all()
 
-    if car and averages:
-        result =  CarAveragesSchema(
+    if has_car and has_averages:
+
+        averages =  CarAveragesSchema(
             many=True,
-            only=('id', 'liters', 'km', 'year', 'month','average', 'car','carId')
-        ).dumps(averages)
+            only=('id', 'liters', 'km', 'year', 'month','average', 'carId')
+        ).dumps(has_averages)
+
+        car = CarSchema(
+            only=('id', 'plate', 'brand', 'model', 'status')
+        ).dumps(has_car)
+
+        result = {}
+        result['car'] = car
+        result['last12MonthAverages'] = averages[:12]
         
         return result, 200
 
