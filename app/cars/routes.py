@@ -167,7 +167,7 @@ def patch_deact_car(carId):
 def get_car_averages(carId):
     
     has_car = Car.query.filter_by(id=carId).first()
-    has_averages = CarAverage.query.filter_by(carId=carId).order_by(CarAverage.id.desc()).all()
+    has_averages = CarAverage.query.filter_by(carId=carId).order_by(CarAverage.year.desc(), CarAverage.month.desc()).all()
 
     if has_car and has_averages:
 
