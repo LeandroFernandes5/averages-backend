@@ -99,4 +99,24 @@ def averageMonthlyCalculation(result):
 
                 app.logger.info('Created Monthly Average with liter: %s totalKm: %s, average: %s',liters, totalKm, monthlyAvg)
 
-   
+def delAverage(supply):
+    
+    carId = supply.carId
+    supDate = supply.supplyDate
+
+    nextSups = db.session.query(Supply).filter(Supply.supplyDate >= supDate).\
+                    filter(Supply.carId == carId).filter(Supply.fullTank == True).order_by(Supply.totalKm.asc())
+                
+    nextSup = nextSups[1]
+
+    beforeSups = db.session.query(Supply).filter(Supply.supplyDate <= supDate).\
+                    filter(Supply.carId == carId).filter(Supply.fullTank == True).order_by(Supply.totalKm.desc())
+
+    beforeSup = beforeSups[1]
+
+    totalKm = nextSup.totalKm - beforeSup.totalKm
+
+    
+
+
+    
