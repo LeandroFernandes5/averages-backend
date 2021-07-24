@@ -13,6 +13,7 @@ class SupplySchema(Schema):
     cost = fields.Float()
     supplyDate = fields.DateTime()
     average = fields.Float()
+    isSupplyPast = fields.Boolean()
     createdDate = fields.DateTime(load_only=True)
     modifiedDate = fields.DateTime(load_only=True)
     gasStationId = fields.Int(load_only=True)

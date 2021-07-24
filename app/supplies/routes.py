@@ -115,7 +115,7 @@ def del_supplies(supplyId):
         db.session.delete(supply)
         db.session.commit()
 
-        ### TODO Add average calculation
+        delAverage(supply)
 
         app.logger.info('Deleted Supply with id:  %s', supplyId)
 
