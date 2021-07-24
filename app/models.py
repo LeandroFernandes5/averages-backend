@@ -125,6 +125,7 @@ class Supply(db.Model):
     cost =  db.Column('cost', db.Float(precision=10, decimal_return_scale=2), nullable=False, unique=False, default=0)
     supplyDate = db.Column('supplyDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     average = db.Column('average', db.Float(precision=10, decimal_return_scale=2), nullable=False, unique=False)
+    isSupplyPast = db.Column('isSupplyPast', db.Boolean, nullable=True, unique=False)
     createdDate = db.Column('createdDate', db.DateTime(timezone=True), nullable=False,  unique=False, server_default=func.now())
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
     gasStationId = db.Column(db.Integer, db.ForeignKey('gasstations.id'))
