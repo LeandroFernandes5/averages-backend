@@ -4,6 +4,7 @@ from app.models import Supply
 from app.supplies.schema import SupplySchema
 from app.decorators import token_perms_required
 from app.businessLogic import *
+import datetime
 
 #    
 #   Get all Supplies
@@ -48,6 +49,9 @@ def post_supplies():
     )
 
     supply.average = averageCalculation(result) 
+
+    if result.get('supplyDate').date() != datetime.date.today():
+        supply.isSupplyPast = True
 
     db.session.add(supply)
     db.session.commit()
