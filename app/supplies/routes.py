@@ -3,7 +3,7 @@ from app import app, db
 from app.models import Supply
 from app.supplies.schema import SupplySchema
 from app.lib.decorators import token_perms_required
-from app.businessLogic import *
+from app.lib.businessLogic import *
 import datetime
 
 #    
