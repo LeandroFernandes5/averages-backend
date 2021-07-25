@@ -98,8 +98,23 @@ class CarAverage(db.Model):
     modifiedDate = db.Column('modifiedDate', db.DateTime(timezone=True), nullable=True,  unique=False, onupdate=func.now())
     carId = db.Column('carId', db.Integer, db.ForeignKey('cars.id'))
 
+    def update_car_average(self, result):
+        self.average = result['monthlyAvg']
+        self.liters = result['liters']
+        self.km = result['totalKm']
+        
+        return self
+
+    def get_car_average(self, supDate, carId):
+        return CarAverage.query.filter_by(year=supDate.year, month=supDate.month, carId = carId).first()
+
+    def add_car_average(supDate, carId, result):
+        n = CarAverage(liters = result['liters'], km = result['totalKm'], year = supDate.year, month = supDate.month, carId = carId, average = result['monthlyAvg'])
+        db.session.add(n)
+
     def __repr__(self):
         return '<CarAverage {}>'.format(self.id)
+
 
 class GasStation(db.Model):
 
@@ -112,6 +127,7 @@ class GasStation(db.Model):
 
     def __repr__(self):
         return '<GasStation {}>'.format(self.name)
+
 
 
 class Supply(db.Model):
@@ -135,5 +151,29 @@ class Supply(db.Model):
     carId = db.Column(db.Integer, db.ForeignKey('cars.id'))
     car = relationship("Car")
     
+    def get_next_sups(supDate, carId):
+        return db.session.query(Supply).filter(Supply.supplyDate >= supDate, Supply.carId == carId, Supply.fullTank == True).order_by(Supply.totalKm.asc())
+
+    def get_aux_sups(supDate, carId):
+        return db.session.query(Supply).filter(Supply.supplyDate >= supDate, Supply.carId == carId, Supply.fullTank == True).order_by(Supply.totalKm.asc())
+
+    def get_max_km(supDate, carId):
+        return db.session.query(db.func.max(Supply.totalKm)).filter(Supply.supplyDate >= supDate, Supply.carId == carId, Supply.fullTank == True).scalar()
+        
+    def get_min_km(supDate, carId):
+        return db.session.query(db.func.min(Supply.totalKm)).filter(Supply.supplyDate >= supDate, Supply.carId == carId, Supply.fullTank == True).scalar()
+
+    def get_total_km(supDate, carId):
+        max = db.session.query(db.func.max(Supply.totalKm)).filter(Supply.supplyDate >= supDate, Supply.carId == carId, Supply.fullTank == True).scalar()
+        min = db.session.query(db.func.min(Supply.totalKm)).filter(Supply.supplyDate >= supDate, Supply.carId == carId, Supply.fullTank == True).scalar()
+        return max-min
+        
+    def get_liters_bt_sups(supDate, carId, aux):
+        return db.session.query(func.sum(Supply.liters)).filter(Supply.supplyDate >= supDate).filter(Supply.carId == carId).\
+        filter(Supply.totalKm.between(aux[1].totalKm, aux[-1].totalKm)).scalar() 
+
+    def calc_average(liters, totalKm):
+        return round((100 * liters) / totalKm, 2)
+
     def __repr__(self):
         return '<Supply {}>'.format(self.id)
