@@ -1,7 +1,6 @@
-from flask import app, request
+from flask import app, request, Flask, make_response
 from app import app, db
 import jwt 
-
 
 def token_perms_required(role):
     def inner_decorator(f):
@@ -29,3 +28,9 @@ def token_perms_required(role):
         return wrapped
     return inner_decorator
 
+
+@app.after_request
+def after_request_func(data):
+    response = make_response(data)
+    response.headers['Content-Type'] = 'application/json'
+    return response

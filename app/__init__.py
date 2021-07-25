@@ -22,7 +22,7 @@ ma = Marshmallow(app)
 #
 #   Import utils
 #
-from app.util import *
+from app.lib.decorators import *
 
 # 
 #    Import Routes
