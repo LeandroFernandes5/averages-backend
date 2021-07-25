@@ -4,7 +4,7 @@ from app import app, db
 from app.models import Car, Supply, CarAverage
 from app.cars.schema import CarSchema
 from app.carAverages.schema import CarAveragesSchema
-from app.decorators import token_perms_required
+from app.lib.decorators import token_perms_required
 
 #    
 #   Get Cars simplified

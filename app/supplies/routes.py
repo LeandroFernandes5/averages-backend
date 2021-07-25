@@ -2,7 +2,7 @@ from flask import app, jsonify, request
 from app import app, db
 from app.models import Supply
 from app.supplies.schema import SupplySchema
-from app.decorators import token_perms_required
+from app.lib.decorators import token_perms_required
 from app.businessLogic import *
 import datetime
 
@@ -47,8 +47,8 @@ def post_supplies():
         supplyDate = result.get('supplyDate'),
         cost = result.get('cost')
     )
-
-    supply.average = averageCalculation(result) 
+    
+    supply.average = averageCalculation(supply) 
 
     if result.get('supplyDate').date() != datetime.date.today():
         supply.isSupplyPast = True

@@ -2,7 +2,7 @@ from flask import app, request, jsonify
 from app import app, db
 from app.models import GasStation
 from app.gasStations.schema import GasStationSchema
-from app.decorators import token_perms_required
+from app.lib.decorators import token_perms_required
 
 #    
 #   Get all Gas Stations

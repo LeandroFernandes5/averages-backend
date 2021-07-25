@@ -3,7 +3,7 @@ from app import app, db
 from app.models import User
 from app.users.schema import UserSchema
 import jwt, datetime
-from app.decorators import token_perms_required
+from app.lib.decorators import token_perms_required
 
 
 #    

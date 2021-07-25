@@ -3,7 +3,7 @@ from app import app, db
 from app.models import Driver, Supply
 from app.drivers.schema import DriverSchema, DriverSimplifiedSchema
 from app.supplies.schema import SupplySchema
-from app.decorators import token_perms_required
+from app.lib.decorators import token_perms_required
 
 #
 #   Get Driver Simplified
