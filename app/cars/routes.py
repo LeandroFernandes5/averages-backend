@@ -159,7 +159,7 @@ def patch_deact_car(carId):
     return { 'message' : 'Car not found' }, 404 
 
 
-#   TODO TBF
+#   
 #   Get a Car Averages
 #
 @app.get('/api/cars/<int:carId>/averages')
