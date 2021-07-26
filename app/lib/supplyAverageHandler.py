@@ -9,13 +9,12 @@ def delSupply(supply):
     supDate = supply.supplyDate
 
     supRange = Supply.get_sup_range(supDate, carId)
-                
+
+    """
+        Update next Supply average
+    """  
     if supRange is not None:
         
-        monthlyAverageCalculation(supDate, carId)
-
-        db.session.commit()
-
         if not supRange[-1].isSupplyPast:
             
             totalKm = supRange[-1].totalKm - supRange[0].totalKm
@@ -31,6 +30,24 @@ def delSupply(supply):
             db.session.commit()
 
             app.logger.info('Re-calc of average for Car: %s totalKm: %s, liters: %s, average: %s',carId, totalKm, liters, avg)
+
+        """
+            Delete or re-calc monthly average
+        """
+        monthlySups = Supply.get_monthly_sups(supDate, carId)
+
+        if monthlySups.count() > 1:
+
+            monthlyAverageCalculation(supDate, carId)
+
+            db.session.commit()
+
+        elif monthlySups.count() == 1:
+            
+            CarAverage.get_delete_car_average(supDate, carId)
+            
+            db.session.commit()
+
 
 
 def postSupply(supply):

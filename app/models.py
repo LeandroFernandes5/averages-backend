@@ -120,8 +120,10 @@ class CarAverage(db.Model):
 
             return n
 
-    def get_car_average(self, supDate, carId):
-        return CarAverage.query.filter_by(year=supDate.year, month=supDate.month, carId = carId).first()
+    def get_delete_car_average(supDate, carId):
+        a = CarAverage.query.filter_by(year=supDate.year, month=supDate.month, carId = carId).first() 
+        db.session.delete(a)
+        return a
 
     def __repr__(self):
         return '<CarAverage {}>'.format(self.id) 
@@ -166,7 +168,7 @@ class Supply(db.Model):
         return db.session.query(Supply).filter(Supply.supplyDate > supDate, Supply.carId == carId, Supply.fullTank == True).order_by(Supply.totalKm.asc())[0]
 
     def get_sup_range(supDate, carId):
-        next = db.session.query(Supply).filter(Supply.supplyDate >= supDate, Supply.carId == carId, Supply.fullTank == True).order_by(Supply.totalKm.asc())
+        next = db.session.query(Supply).filter(Supply.supplyDate >= supDate , Supply.carId == carId, Supply.fullTank == True).order_by(Supply.totalKm.asc())
         before = db.session.query(Supply).filter(Supply.supplyDate <= supDate, Supply.carId == carId, Supply.fullTank == True).order_by(Supply.totalKm.desc())
 
         return db.session.query(Supply).filter(Supply.carId == carId, Supply.totalKm.between(before[1].totalKm, next[-1].totalKm)).order_by(Supply.totalKm.asc()) 
@@ -189,6 +191,9 @@ class Supply(db.Model):
 
     def calc_average(liters, totalKm):
         return round((100 * liters) / totalKm, 2)
+
+    def get_monthly_sups(supDate, carId):
+        return db.session.query(Supply).filter(extract('year', Supply.supplyDate) == supDate.year, extract('month', Supply.supplyDate) == supDate.month, Supply.carId == carId, Supply.fullTank == True).order_by(Supply.totalKm.asc())
 
     def __repr__(self):
         return '<Supply {}>'.format(self.id)
