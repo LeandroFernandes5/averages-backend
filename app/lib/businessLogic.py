@@ -1,8 +1,11 @@
-from app import app, db
+from app import app
 from app.models import Supply, CarAverage
 import datetime
-from sqlalchemy import func
 
+
+"""
+    Calculate average between 2 supplies, only used upon POST supply
+"""
 def averageCalculation(supply):
 
     avg_calc = 0
@@ -37,6 +40,10 @@ def averageCalculation(supply):
         
     return avg_calc
 
+
+"""
+    Function to calculate or re-calculate monthly average
+"""
 def monthlyAverageCalculation(supDate, carId):
 
     result = {}

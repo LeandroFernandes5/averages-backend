@@ -1,4 +1,4 @@
-from sqlalchemy.orm import backref, relationship
+from sqlalchemy.orm import relationship
 from app import app, db
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import func, extract

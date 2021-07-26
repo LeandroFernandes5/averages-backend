@@ -1,5 +1,5 @@
-from flask import app, request, Flask, make_response
-from app import app, db
+from flask import app, request, make_response
+from app import app
 import jwt 
 
 def token_perms_required(role):

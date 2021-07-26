@@ -1,8 +1,11 @@
 from app import app, db
 from app.models import Supply
 from app.lib.businessLogic import *
-from sqlalchemy import extract
+from sqlalchemy import func
 
+"""
+    Function to deal with supply outcomes of DEL a supply
+"""
 def delSupply(supply):
 
     carId = supply.carId
@@ -49,18 +52,17 @@ def delSupply(supply):
             db.session.commit()
 
 
-
+"""
+    Deal with possible outcomes of POST supply
+"""
 def postSupply(supply):
 
         if supply.fullTank:
-            
-            carId = supply.carId
-            supplyDate = supply.supplyDate
 
-            sups = db.session.query(Supply).filter(Supply.carId == carId, extract('year', Supply.supplyDate) == supplyDate.year, extract('month', Supply.supplyDate) == supplyDate.month).order_by(Supply.id.desc())
+            sups = Supply.get_monthly_sups(supply.supplyDate, supply.carId)
         
-            if sups.filter(Supply.fullTank == True).count() > 1:
+            if sups.count() > 1:
 
-                monthlyAverageCalculation(supplyDate, carId)
+                monthlyAverageCalculation(supply.supplyDate, supply.carId)
 
                 db.session.commit()
