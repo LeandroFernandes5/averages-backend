@@ -2,6 +2,7 @@ from flask import app, jsonify, request
 from app import app, db
 from app.models import Supply
 from app.supplies.schema import SupplySchema
+from app.lib.supplyAverageHandler import *
 from app.lib.decorators import token_perms_required
 from app.lib.businessLogic import *
 import datetime
@@ -58,7 +59,7 @@ def post_supplies():
 
     app.logger.info('Created new Supply %s ', request.json)
 
-    averageMonthlyCalculation(supply)
+    postSupply(supply)
 
     return { 'message' : 'Supply created' }, 201
 
@@ -119,7 +120,7 @@ def del_supplies(supplyId):
         db.session.delete(supply)
         db.session.commit()
 
-        delAverage(supply)
+        delSupply(supply)
 
         app.logger.info('Deleted Supply with id:  %s', supplyId)
 
