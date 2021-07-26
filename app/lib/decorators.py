@@ -2,6 +2,9 @@ from flask import app, request, make_response
 from app import app
 import jwt 
 
+"""
+   Unstrip token from Auth header and validate it
+"""
 def token_perms_required(role):
     def inner_decorator(f):
         def wrapped(*args, **kwargs):
@@ -29,6 +32,10 @@ def token_perms_required(role):
     return inner_decorator
 
 
+
+"""
+   Set proper mime type for all API responses
+"""
 @app.after_request
 def after_request_func(data):
     response = make_response(data)
