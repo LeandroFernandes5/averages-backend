@@ -120,9 +120,9 @@ def del_supplies(supplyId):
         db.session.delete(supply)
         db.session.commit()
 
-        delSupply(supply)
-
         app.logger.info('Deleted Supply with id:  %s', supplyId)
+
+        delSupply(supply)
 
         return { 'message' : 'Supply deleted' }, 200
 

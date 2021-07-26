@@ -5,6 +5,7 @@ from app.models import Car, Supply, CarAverage
 from app.cars.schema import CarSchema
 from app.carAverages.schema import CarAveragesSchema
 from app.lib.decorators import token_perms_required
+import json
 
 #    
 #   Get Cars simplified
@@ -174,15 +175,15 @@ def get_car_averages(carId):
         averages =  CarAveragesSchema(
             many=True,
             only=('id', 'liters', 'km', 'year', 'month','average', 'carId')
-        ).dumps(has_averages)
+        ).dump(has_averages[:12])
 
         car = CarSchema(
             only=('id', 'plate', 'brand', 'model', 'status')
-        ).dumps(has_car)
+        ).dump(has_car)
 
         result = {}
         result['car'] = car
-        result['last12MonthAverages'] = averages[:12]
+        result['last12MonthAverages'] = averages
         
         return result, 200
 
