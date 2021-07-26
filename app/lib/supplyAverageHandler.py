@@ -11,45 +11,48 @@ def delSupply(supply):
     carId = supply.carId
     supDate = supply.supplyDate
 
-    supRange = Supply.get_sup_range(supDate, carId)
-
+    
     """
         Update next Supply average
-    """  
-    if supRange is not None:
+    """ 
+    if Supply.get_next_sups(supDate, carId).count() != 0:
+
+        supRange = Supply.get_sup_range(supDate, carId)
+
+        if supRange is not None:
+            
+            if not supRange[-1].isSupplyPast:
+                
+                totalKm = supRange[-1].totalKm - supRange[0].totalKm
+
+                liters = db.session.query(func.sum(Supply.liters)).filter(Supply.carId == carId, Supply.totalKm.between(supRange[1].totalKm, supRange[-1].totalKm)).scalar() 
+
+                avg = Supply.calc_average(liters, totalKm)
+
+                nextSup = Supply.get_next_sups(supDate, carId)[0]
+
+                nextSup.average = avg
+
+                db.session.commit()
+
+                app.logger.info('Re-calc of average for Car: %s totalKm: %s, liters: %s, average: %s',carId, totalKm, liters, avg)
+
+    """
+        Delete or re-calc monthly average
+    """
+    monthlySups = Supply.get_monthly_sups(supDate, carId)
+
+    if monthlySups.count() > 1:
+
+        monthlyAverageCalculation(supDate, carId)
+
+        db.session.commit()
+
+    elif monthlySups.count() == 1:
         
-        if not supRange[-1].isSupplyPast:
-            
-            totalKm = supRange[-1].totalKm - supRange[0].totalKm
-
-            liters = db.session.query(func.sum(Supply.liters)).filter(Supply.carId == carId, Supply.totalKm.between(supRange[1].totalKm, supRange[-1].totalKm)).scalar() 
-
-            avg = Supply.calc_average(liters, totalKm)
-
-            nextSup = Supply.get_next_sup(supDate, carId)
-
-            nextSup.average = avg
-
-            db.session.commit()
-
-            app.logger.info('Re-calc of average for Car: %s totalKm: %s, liters: %s, average: %s',carId, totalKm, liters, avg)
-
-        """
-            Delete or re-calc monthly average
-        """
-        monthlySups = Supply.get_monthly_sups(supDate, carId)
-
-        if monthlySups.count() > 1:
-
-            monthlyAverageCalculation(supDate, carId)
-
-            db.session.commit()
-
-        elif monthlySups.count() == 1:
-            
-            CarAverage.get_delete_car_average(supDate, carId)
-            
-            db.session.commit()
+        CarAverage.get_delete_car_average(supDate, carId)
+        
+        db.session.commit()
 
 
 """

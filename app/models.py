@@ -164,8 +164,8 @@ class Supply(db.Model):
     carId = db.Column(db.Integer, db.ForeignKey('cars.id'))
     car = relationship("Car")
     
-    def get_next_sup(supDate, carId):
-        return db.session.query(Supply).filter(Supply.supplyDate > supDate, Supply.carId == carId, Supply.fullTank == True).order_by(Supply.totalKm.asc())[0]
+    def get_next_sups(supDate, carId):
+        return db.session.query(Supply).filter(Supply.supplyDate > supDate, Supply.carId == carId, Supply.fullTank == True).order_by(Supply.totalKm.asc())
 
     def get_sup_range(supDate, carId):
         next = db.session.query(Supply).filter(Supply.supplyDate >= supDate , Supply.carId == carId, Supply.fullTank == True).order_by(Supply.totalKm.asc())
